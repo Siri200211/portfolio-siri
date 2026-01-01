@@ -1,4 +1,5 @@
-import { Github, Linkedin, Mail, MapPin, Phone, Code2, Database, Zap, Shield, Gamepad2 } from 'lucide-react';
+import { Github, Linkedin, Mail, MapPin, Phone, Code2, Database, Zap, Shield } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export default function Hero() {
   const techStack = [
@@ -22,9 +23,14 @@ export default function Hero() {
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDYwIDAgTCAwIDAgMCA2MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDU5LCAxMzAsIDI0NiwgMC4xKSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIi8+PC9zdmc+')] opacity-30"></div>
 
       <div className="container mx-auto px-6 py-20 relative z-10">
-        <div className="max-w-5xl mx-auto">
-          {/* Avatar with glow and rotation */}
-          <div className="mb-12 animate-fade-in flex justify-center">
+        <div className="max-w-5xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+          {/* Left side - Avatar */}
+          <motion.div
+            className="flex justify-center md:justify-end"
+            initial={{ x: -100, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
             <div className="relative w-40 h-40">
               {/* Rotating border */}
               <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 p-1 animate-spin" style={{ animationDuration: '8s' }}>
@@ -38,10 +44,15 @@ export default function Hero() {
               <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-purple-400"></div>
               <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-cyan-400"></div>
             </div>
-          </div>
+          </motion.div>
 
-          {/* Main heading with dramatic text */}
-          <div className="text-center mb-8">
+          {/* Right side - Text content */}
+          <motion.div
+            className="text-center md:text-left"
+            initial={{ x: 100, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          >
             <h1 className="text-6xl md:text-8xl font-black mb-4 animate-slide-up leading-tight">
               <span className="glow-text block">Venuka</span>
               <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 text-transparent bg-clip-text block">Sirimanne</span>
@@ -53,50 +64,76 @@ export default function Hero() {
               Software Developer
             </p>
 
-            <p className="text-lg md:text-xl text-gray-400 mb-8 max-w-2xl mx-auto leading-relaxed animate-slide-up animation-delay-600">
+            <p className="text-lg md:text-xl text-gray-400 mb-8 leading-relaxed">
               Crafting cutting-edge web applications with MERN stack. Building scalable solutions that solve real-world problems with clean, efficient code.
             </p>
-          </div>
 
-          {/* Tech stack floating badges */}
-          <div className="mb-12 animate-slide-up animation-delay-800">
-            <p className="text-center text-gray-400 mb-6 text-sm uppercase tracking-widest">Tech Stack</p>
-            <div className="flex flex-wrap justify-center gap-4">
-              {techStack.map((tech, idx) => {
-                const Icon = tech.icon;
-                return (
-                  <div
-                    key={idx}
-                    className={`group tech-badge bg-gradient-to-br ${tech.bg} border-white/20 hover:border-white/60 animate-pop-bounce hover:shadow-2xl`}
-                    style={{ animationDelay: `${idx * 100}ms` }}
-                  >
-                    <Icon className={`inline mr-2 ${tech.color} group-hover:animate-spin`} size={16} />
-                    {tech.label}
-                  </div>
-                );
-              })}
+            {/* Tech stack floating badges */}
+            <div className="mb-8">
+              <p className="text-gray-400 mb-4 text-sm uppercase tracking-widest">Tech Stack</p>
+              <div className="flex flex-wrap justify-start gap-3">
+                {techStack.map((tech, idx) => {
+                  const Icon = tech.icon;
+                  return (
+                    <motion.div
+                      key={idx}
+                      className={`group tech-badge bg-gradient-to-br ${tech.bg} border-white/20 hover:border-white/60 hover:shadow-2xl`}
+                      initial={{ scale: 0, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ duration: 0.5, delay: 0.6 + idx * 0.1 }}
+                      whileHover={{ scale: 1.05 }}
+                    >
+                      <Icon className={`inline mr-2 ${tech.color} group-hover:animate-spin`} size={16} />
+                      {tech.label}
+                    </motion.div>
+                  );
+                })}
+              </div>
             </div>
-          </div>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-wrap justify-center gap-6 mb-12 animate-slide-up animation-delay-1000">
-            <a href="#contact" className="group relative px-8 py-4 bg-gradient-to-r from-cyan-600 to-blue-600 rounded-lg font-bold text-white overflow-hidden transform hover:scale-105 transition-all duration-300 shadow-2xl hover:shadow-cyan-500/50">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-              <span className="relative flex items-center gap-2">
-                <Mail size={20} />
-                Get In Touch
-              </span>
-            </a>
-            <a href="#projects" className="px-8 py-4 bg-slate-800/50 hover:bg-slate-700/50 border border-white/30 hover:border-white/60 rounded-lg font-bold text-white transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/30">
-              <span className="flex items-center gap-2">
-                <Code2 size={20} />
-                View Projects
-              </span>
-            </a>
-          </div>
+            {/* CTA Buttons */}
+            <div className="flex flex-wrap gap-4">
+              <motion.a
+                href="#contact"
+                className="group relative px-6 py-3 bg-gradient-to-r from-cyan-600 to-blue-600 rounded-lg font-bold text-white overflow-hidden shadow-2xl"
+                initial={{ y: 50, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.6, delay: 1 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+                <span className="relative flex items-center gap-2">
+                  <Mail size={18} />
+                  Get In Touch
+                </span>
+              </motion.a>
+              <motion.a
+                href="#projects"
+                className="px-6 py-3 bg-slate-800/50 hover:bg-slate-700/50 border border-white/30 hover:border-white/60 rounded-lg font-bold text-white transition-all duration-300 hover:shadow-2xl"
+                initial={{ y: 50, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.6, delay: 1.2 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <span className="flex items-center gap-2">
+                  <Code2 size={18} />
+                  View Projects
+                </span>
+              </motion.a>
+            </div>
+          </motion.div>
+        </div>
 
-          {/* Contact info row */}
-          <div className="flex flex-wrap justify-center gap-8 mb-8 text-sm animate-slide-up animation-delay-1200">
+        {/* Contact info and social links */}
+        <motion.div
+          className="mt-12 text-center"
+          initial={{ y: 50, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.8, delay: 1.4 }}
+        >
+          <div className="flex flex-wrap justify-center gap-8 mb-8 text-sm">
             <a href="mailto:venukasirimanne1121@gmail.com" className="flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-colors group">
               <Mail size={18} className="group-hover:animate-neon-glow" />
               <span>venukasirimanne1121@gmail.com</span>
@@ -112,7 +149,7 @@ export default function Hero() {
           </div>
 
           {/* Social links */}
-          <div className="flex justify-center gap-8 animate-slide-up animation-delay-1400">
+          <div className="flex justify-center gap-8">
             <a
               href="https://github.com/Siri200211"
               target="_blank"
@@ -130,7 +167,7 @@ export default function Hero() {
               <Linkedin size={24} className="text-gray-400 group-hover:text-blue-400 transition-colors" />
             </a>
           </div>
-        </div>
+        </motion.div>
       </div>
 
       {/* Scroll indicator */}

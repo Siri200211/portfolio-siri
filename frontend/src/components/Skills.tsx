@@ -45,17 +45,6 @@ export default function Skills() {
     }
   ];
 
-  const glowColorMap = {
-    yellow: 'shadow-yellow-500/50',
-    cyan: 'shadow-cyan-500/50',
-    blue: 'shadow-blue-500/50',
-    green: 'shadow-green-500/50',
-    orange: 'shadow-orange-500/50',
-    purple: 'shadow-purple-500/50',
-    gray: 'shadow-gray-500/50',
-    red: 'shadow-red-500/50',
-  };
-
   return (
     <section id="skills" className="py-20 bg-gradient-to-b from-black via-slate-900 to-black relative overflow-hidden">
       {/* Background particles */}
