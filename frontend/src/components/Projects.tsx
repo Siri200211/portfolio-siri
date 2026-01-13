@@ -3,6 +3,21 @@ import { ExternalLink, Calendar } from 'lucide-react';
 export default function Projects() {
   const projects = [
     {
+      title: "Weather Comfort Analytics Dashboard",
+      period: "January 5 - January 11, 2026",
+      description: "Built a responsive Weather Comfort Analytics Dashboard using React with secure authentication. The application visualizes weather insights and calculates comfort scores based on temperature and other metrics for multiple cities.",
+      highlights: [
+        "Responsive Weather Comfort Analytics Dashboard with React",
+        "Secure authentication with Auth0 and protected backend API access",
+        "Weather insights visualized using graphs and charts with city rankings",
+        "Comfort score calculation with search and sorting capabilities",
+        "Dark/light theme support for enhanced user experience",
+        "Clean, intuitive UI with comprehensive data analysis"
+      ],
+      tech: ["React", "Auth0", "JavaScript", "CSS", "Charts", "API Integration"],
+      images: []
+    },
+    {
       title: "Hotel Stock Management System",
       period: "March 2025 - May 2025",
       description: "Developed AI bot for MERN system to automate inventory tracking with WhatsApp integration for supplier communication featuring Sinhala support.",

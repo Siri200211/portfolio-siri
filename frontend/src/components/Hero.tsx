@@ -55,13 +55,94 @@ export default function Hero() {
         <div className="max-w-6xl mx-auto">
           {/* Main content grid */}
           <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
-            {/* Left side - Avatar */}
+            {/* Left side - Avatar with floating elements */}
             <motion.div
-              className="flex justify-center md:justify-end"
+              className="flex justify-center md:justify-end relative"
               initial={{ x: -100, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
+              {/* Floating animated cards */}
+              <motion.div
+                className="absolute -left-12 top-10 w-20 h-20 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border border-cyan-400/50 rounded-lg flex items-center justify-center backdrop-blur-sm"
+                animate={{
+                  y: [0, -20, 0],
+                  rotate: [0, 5, 0],
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+              >
+                <div className="text-3xl">💻</div>
+              </motion.div>
+
+              <motion.div
+                className="absolute -left-16 bottom-16 w-18 h-18 bg-gradient-to-br from-purple-500/20 to-pink-500/20 border border-purple-400/50 rounded-full flex items-center justify-center backdrop-blur-sm"
+                animate={{
+                  y: [0, 15, 0],
+                  rotate: [0, -5, 0],
+                }}
+                transition={{
+                  duration: 5,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 0.5
+                }}
+              >
+                <div className="text-3xl">⚡</div>
+              </motion.div>
+
+              <motion.div
+                className="absolute -left-6 -top-8 w-16 h-16 bg-gradient-to-br from-green-500/20 to-emerald-500/20 border border-green-400/50 rounded-lg flex items-center justify-center backdrop-blur-sm"
+                animate={{
+                  y: [0, -15, 0],
+                  rotate: [0, 8, 0],
+                }}
+                transition={{
+                  duration: 4.5,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 1
+                }}
+              >
+                <div className="text-2xl">🔧</div>
+              </motion.div>
+
+              {/* Orbiting circles */}
+              <motion.div
+                className="absolute inset-0 w-72 h-72 -z-20"
+                animate={{
+                  rotate: 360,
+                }}
+                transition={{
+                  duration: 20,
+                  repeat: Infinity,
+                  ease: "linear"
+                }}
+              >
+                <div className="absolute top-0 left-1/2 w-3 h-3 bg-cyan-400 rounded-full transform -translate-x-1/2 opacity-60"></div>
+                <div className="absolute bottom-0 left-1/2 w-3 h-3 bg-blue-400 rounded-full transform -translate-x-1/2 opacity-60"></div>
+                <div className="absolute top-1/2 left-0 w-3 h-3 bg-purple-400 rounded-full transform -translate-y-1/2 opacity-60"></div>
+              </motion.div>
+
+              <motion.div
+                className="absolute inset-0 w-96 h-96 -z-20"
+                animate={{
+                  rotate: -360,
+                }}
+                transition={{
+                  duration: 30,
+                  repeat: Infinity,
+                  ease: "linear"
+                }}
+              >
+                <div className="absolute top-0 left-1/2 w-2 h-2 bg-cyan-300 rounded-full transform -translate-x-1/2 opacity-40"></div>
+                <div className="absolute top-1/4 right-0 w-2 h-2 bg-blue-300 rounded-full opacity-40"></div>
+                <div className="absolute bottom-1/4 right-0 w-2 h-2 bg-purple-300 rounded-full opacity-40"></div>
+              </motion.div>
+
               <div className="relative w-48 h-48">
                 {/* Rotating border */}
                 <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 p-1 animate-spin" style={{ animationDuration: '8s' }}>

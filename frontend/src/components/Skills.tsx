@@ -1,4 +1,4 @@
-import { Code2, Database, Layers, Wrench, Star, Zap, Target } from 'lucide-react';
+import { Code2, Database, Layers, Wrench, Star, Zap, Target, Shield } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 
@@ -35,6 +35,7 @@ export default function Skills() {
     { name: "GitHub", category: "tools", color: "from-slate-700 to-slate-800", icon: "🐙", glow: "gray" },
     { name: "Postman", category: "tools", color: "from-orange-500 to-orange-600", icon: "📮", glow: "orange" },
     { name: "AWS", category: "tools", color: "from-orange-600 to-orange-700", icon: "☁️", glow: "orange" },
+    { name: "Auth0", category: "tools", color: "from-red-500 to-red-600", icon: "🔐", glow: "red" },
     
     // Mobile & IoT
     { name: "Flutter", category: "mobile", color: "from-sky-400 to-sky-500", icon: "📱", glow: "sky" },
@@ -69,6 +70,13 @@ export default function Skills() {
       description: "Developing cross-platform mobile applications and IoT solutions",
       skills: ["Flutter", "IoT Integration", "Mobile Apps"],
       color: "from-orange-500 to-red-500"
+    },
+    {
+      icon: <Shield size={40} />,
+      title: "Authentication & Security",
+      description: "Implementing secure authentication and access control solutions",
+      skills: ["Auth0", "JWT Authentication", "Role-Based Access Control"],
+      color: "from-red-500 to-pink-500"
     }
   ];
 
@@ -149,46 +157,85 @@ export default function Skills() {
             transition={{ duration: 0.6, delay: 0.3 }}
             viewport={{ once: true }}
           >
-            <div className="flex flex-wrap justify-center gap-6 items-center">
-              {filteredSkills.map((skill, idx) => (
-                <motion.div
-                  key={idx}
-                  className="group relative"
-                  initial={{ scale: 0, opacity: 0 }}
-                  whileInView={{ scale: 1, opacity: 1 }}
-                  transition={{ duration: 0.5, delay: idx * 0.05 }}
-                  viewport={{ once: true }}
-                  whileHover={{ scale: 1.15, rotateY: 10 }}
-                >
-                  {/* Glow background */}
-                  <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl bg-gradient-to-br from-cyan-500/30 to-blue-500/30"></div>
-
-                  {/* Ball */}
-                  <div
-                    className="relative w-24 h-24 rounded-full flex flex-col items-center justify-center font-bold text-white cursor-pointer transition-all duration-300 transform group-hover:shadow-2xl border border-white/30 backdrop-blur-xl overflow-hidden"
-                    style={{
-                      background: `linear-gradient(135deg, var(--tw-gradient-stops))`,
-                      '--tw-gradient-from': skill.color.split(' ')[1],
-                      '--tw-gradient-to': skill.color.split(' ')[3],
-                      boxShadow: `0 0 30px rgba(0, 0, 0, 0.5)`,
-                    } as any}
+            <div className="flex flex-wrap justify-center gap-6 items-center perspective" style={{ perspective: '1200px' }}>
+              {filteredSkills.map((skill, idx) => {
+                // Generate random starting position for each ball
+                const randomX = (Math.random() - 0.5) * 400;
+                const randomY = (Math.random() - 0.5) * 400;
+                const randomZ = (Math.random() - 0.5) * 200;
+                
+                return (
+                  <motion.div
+                    key={idx}
+                    className="group relative"
+                    initial={{ 
+                      x: randomX, 
+                      y: randomY, 
+                      z: randomZ,
+                      opacity: 0,
+                      scale: 0.5
+                    }}
+                    whileInView={{ 
+                      x: 0, 
+                      y: 0, 
+                      z: 0,
+                      opacity: 1,
+                      scale: 1
+                    }}
+                    transition={{ 
+                      duration: 0.8, 
+                      delay: idx * 0.08,
+                      type: "spring",
+                      stiffness: 100,
+                      damping: 15
+                    }}
+                    viewport={{ once: true }}
+                    whileHover={{ 
+                      scale: 1.15, 
+                      rotateX: 10,
+                      rotateY: 10,
+                      z: 50
+                    }}
                   >
-                    {/* Shine effect */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    {/* Glow background */}
+                    <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl bg-gradient-to-br from-cyan-500/40 to-blue-500/40"></div>
 
-                    {/* Content */}
-                    <div className="relative z-10 text-center">
-                      <div className="text-2xl mb-1">{skill.icon}</div>
-                      <div className="text-xs font-bold uppercase tracking-wider">{skill.name.substring(0, 8)}</div>
-                    </div>
+                    {/* Ball */}
+                    <div
+                      className="relative w-24 h-24 rounded-full flex flex-col items-center justify-center font-bold text-white cursor-pointer transition-all duration-300 transform group-hover:shadow-2xl border border-white/30 backdrop-blur-xl overflow-hidden shadow-xl"
+                      style={{
+                        background: `linear-gradient(135deg, var(--tw-gradient-stops))`,
+                        '--tw-gradient-from': skill.color.split(' ')[1],
+                        '--tw-gradient-to': skill.color.split(' ')[3],
+                        boxShadow: `0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)`,
+                        transformStyle: 'preserve-3d',
+                      } as any}
+                    >
+                      {/* Shine effect */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
-                    {/* Hover tooltip */}
-                    <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap bg-slate-900 px-3 py-1 rounded text-sm border border-white/20">
-                      {skill.name}
+                      {/* Inner glow */}
+                      <div className="absolute inset-2 rounded-full border border-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+                      {/* Content */}
+                      <div className="relative z-10 text-center">
+                        <div className="text-2xl mb-1">{skill.icon}</div>
+                        <div className="text-xs font-bold uppercase tracking-wider">{skill.name.substring(0, 8)}</div>
+                      </div>
+
+                      {/* Hover tooltip */}
+                      <motion.div 
+                        className="absolute bottom-full mb-3 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap bg-gradient-to-r from-slate-900 to-slate-800 px-3 py-2 rounded-lg text-sm border border-white/30 pointer-events-none shadow-lg"
+                        initial={{ y: 5 }}
+                        whileHover={{ y: -5 }}
+                      >
+                        {skill.name}
+                        <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gradient-to-r from-slate-900 to-slate-800 border-r border-b border-white/30 rotate-45"></div>
+                      </motion.div>
                     </div>
-                  </div>
-                </motion.div>
-              ))}
+                  </motion.div>
+                );
+              })}
             </div>
           </motion.div>
 
@@ -257,9 +304,9 @@ export default function Skills() {
           >
             <div className="grid grid-cols-3 gap-6 md:gap-10">
               {[
-                { icon: <Star size={32} />, value: '21', label: 'Technologies' },
-                { icon: <Target size={32} />, value: '10', label: 'Projects' },
-                { icon: <Zap size={32} />, value: '6', label: 'Categories' },
+                { icon: <Star size={32} />, value: '22', label: 'Technologies' },
+                { icon: <Target size={32} />, value: '11', label: 'Projects' },
+                { icon: <Zap size={32} />, value: '7', label: 'Categories' },
               ].map((stat, idx) => (
                 <motion.div
                   key={idx}
