@@ -12,19 +12,23 @@ export default function Projects() {
         "Real-time monitoring capabilities",
         "Sustainable resource management"
       ],
-      tech: ["MongoDB", "React", "CSS", "JavaScript", "Node.js", "Express.js"]
+      tech: ["MongoDB", "React", "CSS", "JavaScript", "Node.js", "Express.js"],
+      images: []
     },
     {
       title: "SLT PEOTV Sales Reports & Dashboard",
       period: "January 2025 - February 2025",
-      description: "Developed a comprehensive MERN web application to manage and analyze PEOtv sales data with interactive dashboards and automated alerts.",
+      description: "Developed a comprehensive MERN web application to manage and analyze PEOtv sales data with interactive dashboards and automated alerts. Single-handedly built and deployed this application, which is currently in production and actively used by the Marketing Department.",
       highlights: [
+        "Individually developed full-stack application from concept to deployment",
         "CSV upload and monthly categorized exports",
         "Interactive dashboards with line charts for trend analysis",
         "Automated email alerts for missing sales uploads",
-        "Role-based authentication for Admin and User access"
+        "Role-based authentication for Admin and User access",
+        "Currently in production use by Marketing Department"
       ],
-      tech: ["MongoDB", "React", "CSS", "JavaScript", "Node.js", "Express.js"]
+      tech: ["MongoDB", "React", "CSS", "JavaScript", "Node.js", "Express.js"],
+      images: ["/images/projects/peotv-sales-dashboard.png", "/images/projects/peotv-sales-daily-report.png", "/images/projects/peotv-sales-overview.png", "/images/projects/peotv-sales-analytics.png"]
     },
     {
       title: "SLT PEOTV Faults Analysis",
@@ -36,7 +40,8 @@ export default function Projects() {
         "User authentication and role-based access",
         "Real-time fault tracking system"
       ],
-      tech: ["MongoDB", "React", "CSS", "JavaScript", "Node.js", "Express.js"]
+      tech: ["MongoDB", "React", "CSS", "JavaScript", "Node.js", "Express.js"],
+      images: ["/images/projects/peotv-faults-analysis.png"]
     },
     {
       title: "Employee Management & Training System",
@@ -48,7 +53,8 @@ export default function Projects() {
         "Employee and lecturer commute management",
         "Integrated booking system"
       ],
-      tech: ["MongoDB", "React", "CSS", "JavaScript", "Node.js", "Express.js"]
+      tech: ["MongoDB", "React", "CSS", "JavaScript", "Node.js", "Express.js"],
+      images: []
     },
     {
       title: "Life Insurance Management System (Lifeyy)",
@@ -60,7 +66,8 @@ export default function Projects() {
         "Role-based access control",
         "Insurance policy management"
       ],
-      tech: ["JavaScript", "PHP", "HTML", "CSS", "MySQL", "phpMyAdmin"]
+      tech: ["JavaScript", "PHP", "HTML", "CSS", "MySQL", "phpMyAdmin"],
+      images: []
     }
   ];
 
@@ -99,6 +106,21 @@ export default function Projects() {
                       <span className="text-sm font-medium">{project.period}</span>
                     </div>
                   </div>
+
+                  {/* Image Gallery */}
+                  {project.images && project.images.length > 0 && (
+                    <div className="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {project.images.map((image, imgIndex) => (
+                        <div key={imgIndex} className="rounded-lg overflow-hidden border border-white/10 hover:border-cyan-400/50 transition-all duration-300">
+                          <img 
+                            src={image} 
+                            alt={`${project.title} screenshot ${imgIndex + 1}`}
+                            className="w-full h-auto object-cover hover:scale-105 transition-transform duration-300"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )}
 
                   <p className="text-gray-300 mb-6 leading-relaxed">
                     {project.description}
