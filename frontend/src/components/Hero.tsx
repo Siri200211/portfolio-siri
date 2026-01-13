@@ -57,7 +57,7 @@ export default function Hero() {
           <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
             {/* Left side - Avatar with floating elements */}
             <motion.div
-              className="flex justify-center md:justify-end relative"
+              className="flex justify-center md:justify-end relative md:-translate-x-12"
               initial={{ x: -100, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -143,11 +143,11 @@ export default function Hero() {
                 <div className="absolute bottom-1/4 right-0 w-2 h-2 bg-purple-300 rounded-full opacity-40"></div>
               </motion.div>
 
-              <div className="relative w-48 h-48">
+              <div className="relative w-64 h-64">
                 {/* Rotating border */}
                 <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 p-1 animate-spin" style={{ animationDuration: '8s' }}>
                   <div className="w-full h-full rounded-full bg-black flex items-center justify-center">
-                    <div className="text-6xl font-black glow-text animate-color-pulse">VS</div>
+                    <div className="text-8xl font-black glow-text animate-color-pulse">VS</div>
                   </div>
                 </div>
                 {/* Corner accents */}

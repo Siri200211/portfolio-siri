@@ -12,10 +12,10 @@ export default function Projects() {
         "Weather insights visualized using graphs and charts with city rankings",
         "Comfort score calculation with search and sorting capabilities",
         "Dark/light theme support for enhanced user experience",
-        "Clean, intuitive UI with comprehensive data analysis"
+        "Clean UI with comprehensive data analysis"
       ],
       tech: ["React", "Auth0", "JavaScript", "CSS", "Charts", "API Integration"],
-      images: []
+      images: ["/images/projects/weather1.png", "/images/projects/weather2.png"]
     },
     {
       title: "Hotel Stock Management System",
