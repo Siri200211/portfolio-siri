@@ -16,6 +16,7 @@
     "@supabase/supabase-js": "^2.57.4",
     "@tsparticles/engine": "^3.9.1",
     "@tsparticles/react": "^3.0.0",
+    "@tsparticles/shape-circle": "^3.9.1",
     "@tsparticles/slim": "^3.9.1",
     "framer-motion": "^12.23.26",
     "lucide-react": "^0.344.0",
