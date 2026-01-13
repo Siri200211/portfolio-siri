@@ -85,11 +85,11 @@ export default function About() {
                 </div>
                 <div className="flex items-center text-gray-300">
                   <Mail className="w-5 h-5 mr-3 text-blue-400" />
-                  <span>venuka@example.com</span>
+                  <span>venukasirimanne1121@gmail.com</span>
                 </div>
                 <div className="flex items-center text-gray-300">
                   <Phone className="w-5 h-5 mr-3 text-purple-400" />
-                  <span>+94 123 456 789</span>
+                  <span>+94 129 2336</span>
                 </div>
               </div>
 
