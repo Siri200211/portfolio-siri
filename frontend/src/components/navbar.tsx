@@ -26,11 +26,20 @@ export default function Navbar() {
     }`}>
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-20">
-          <a href="#" className="text-2xl font-bold text-white relative group">
-            <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 text-transparent bg-clip-text animate-gradient-shift" style={{backgroundSize: '200% 200%'}}>
-              VS
-            </span>
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-400 to-cyan-400 rounded blur opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+          <a href="#" className="flex items-center gap-3">
+            {/* VS Logo with gradient border - Static */}
+            <div className="relative w-12 h-12 flex items-center justify-center">
+              {/* Outer gradient circle */}
+              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 p-0.5">
+                {/* Inner black background with text */}
+                <div className="w-full h-full rounded-full bg-black flex items-center justify-center">
+                  <span className="text-sm font-black bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 text-transparent bg-clip-text">VS</span>
+                </div>
+              </div>
+              {/* Glow effect */}
+              <div className="absolute inset-0 rounded-full bg-cyan-500/20 blur-lg -z-10"></div>
+            </div>
+            <span className="hidden sm:inline text-lg font-bold bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 text-transparent bg-clip-text">Venuka</span>
           </a>
 
           <div className="hidden md:flex items-center gap-8">
