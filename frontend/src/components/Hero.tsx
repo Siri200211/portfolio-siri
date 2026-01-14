@@ -10,7 +10,7 @@ export default function Hero() {
   ];
 
   const stats = [
-    { label: 'Projects Built', value: '10', icon: '🚀' },
+    { label: 'Projects Built', value: '11', icon: '🚀' },
     { label: 'GitHub Repos', value: '14+', icon: '💻' },
     { label: 'Languages', value: '6+', icon: '⚡' },
   ];
@@ -143,11 +143,16 @@ export default function Hero() {
                 <div className="absolute bottom-1/4 right-0 w-2 h-2 bg-purple-300 rounded-full opacity-40"></div>
               </motion.div>
 
-              <div className="relative w-64 h-64">
-                {/* Rotating border */}
-                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 p-1 animate-spin" style={{ animationDuration: '8s' }}>
-                  <div className="w-full h-full rounded-full bg-black flex items-center justify-center">
-                    <div className="text-8xl font-black glow-text animate-color-pulse">VS</div>
+              <div className="relative w-72 h-72">
+                {/* Static border */}
+                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 p-1">
+                  <div className="w-full h-full rounded-full bg-black flex items-center justify-center overflow-hidden">
+                    <img 
+                      src="/images/projects/ME.png" 
+                      alt="Venuka Sirimanne" 
+                      className="w-full h-full rounded-full object-cover saturate-110 scale-125"
+                      style={{ imageRendering: 'auto' }}
+                    />
                   </div>
                 </div>
                 {/* Corner accents */}
