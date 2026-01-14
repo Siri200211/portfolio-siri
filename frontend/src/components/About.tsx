@@ -96,7 +96,7 @@ export default function About() {
               {/* Social Links */}
               <div className="flex space-x-6 mt-8">
                 <motion.a
-                  href="https://github.com"
+                  href="https://github.com/Siri200211"
                   className="p-3 bg-slate-800/50 hover:bg-slate-700/50 rounded-lg transition-all duration-300 hover:scale-110"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
@@ -104,7 +104,7 @@ export default function About() {
                   <Github className="w-6 h-6 text-white" />
                 </motion.a>
                 <motion.a
-                  href="https://linkedin.com"
+                  href="https://www.linkedin.com/in/venuka-sirimanne21-"
                   className="p-3 bg-slate-800/50 hover:bg-slate-700/50 rounded-lg transition-all duration-300 hover:scale-110"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
@@ -112,7 +112,7 @@ export default function About() {
                   <Linkedin className="w-6 h-6 text-white" />
                 </motion.a>
                 <motion.a
-                  href="mailto:venuka@example.com"
+                  href="mailto:venukasirimanne1121@gmail.com"
                   className="p-3 bg-slate-800/50 hover:bg-slate-700/50 rounded-lg transition-all duration-300 hover:scale-110"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
