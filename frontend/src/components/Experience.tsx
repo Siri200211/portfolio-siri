@@ -139,10 +139,10 @@ export default function Experience() {
                   </div>
                 </li>
                 <li className="flex items-start gap-3 p-4 bg-slate-800/50 rounded-lg hover:bg-slate-700/50 transition-colors duration-300 border border-white/5 hover:border-white/20">
-                  <span className="text-2xl">🏏</span>
+                  <span className="text-2xl">🎥</span>
                   <div>
-                    <p className="font-semibold text-white">Panadura Cricket Club</p>
-                    <p className="text-sm text-gray-400">2015 - 2017</p>
+                    <p className="font-semibold text-white">Videography (Camera & Drone)</p>
+                    <p className="text-sm text-gray-400">2025 - Present</p>
                   </div>
                 </li>
               </ul>
