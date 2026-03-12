@@ -1,101 +1,292 @@
-import { Code2, Database, Layers, Wrench, Star, Zap, Target, Shield } from 'lucide-react';
-import { motion } from 'framer-motion';
-import { useState } from 'react';
+import {
+  Code2,
+  Database,
+  Layers,
+  Wrench,
+  Star,
+  Zap,
+  Target,
+  Shield,
+} from "lucide-react";
+import { motion } from "framer-motion";
+import { useState } from "react";
 
 export default function Skills() {
-  const [activeCategory, setActiveCategory] = useState('all');
+  const [activeCategory, setActiveCategory] = useState("all");
 
   const allSkills = [
     // Languages
-    { name: "JavaScript", category: "languages", color: "from-yellow-500 to-yellow-600", icon: "JS", glow: "yellow" },
-    { name: "TypeScript", category: "languages", color: "from-blue-500 to-blue-600", icon: "TS", glow: "blue" },
-    { name: "Java", category: "languages", color: "from-orange-600 to-orange-700", icon: "☕", glow: "orange" },
-    { name: "SQL", category: "languages", color: "from-red-500 to-red-600", icon: "📊", glow: "red" },
-    { name: "PHP", category: "languages", color: "from-indigo-600 to-indigo-700", icon: "🐘", glow: "indigo" },
-    
+    {
+      name: "JavaScript",
+      category: "languages",
+      color: "from-yellow-500 to-yellow-600",
+      icon: "JS",
+      glow: "yellow",
+    },
+    {
+      name: "TypeScript",
+      category: "languages",
+      color: "from-blue-500 to-blue-600",
+      icon: "TS",
+      glow: "blue",
+    },
+    {
+      name: "Java",
+      category: "languages",
+      color: "from-orange-600 to-orange-700",
+      icon: "☕",
+      glow: "orange",
+    },
+    {
+      name: "C#",
+      category: "languages",
+      color: "from-violet-600 to-violet-700",
+      icon: "C#",
+      glow: "purple",
+    },
+    {
+      name: "SQL",
+      category: "languages",
+      color: "from-red-500 to-red-600",
+      icon: "📊",
+      glow: "red",
+    },
+    {
+      name: "PHP",
+      category: "languages",
+      color: "from-indigo-600 to-indigo-700",
+      icon: "🐘",
+      glow: "indigo",
+    },
+
     // Frontend
-    { name: "React.js", category: "frontend", color: "from-cyan-500 to-cyan-600", icon: "⚛️", glow: "cyan" },
-    { name: "Next.js", category: "frontend", color: "from-slate-600 to-slate-700", icon: "▲", glow: "gray" },
-    { name: "Tailwind CSS", category: "frontend", color: "from-cyan-400 to-cyan-500", icon: "🌊", glow: "cyan" },
-    { name: "HTML", category: "frontend", color: "from-orange-500 to-orange-600", icon: "🏷️", glow: "orange" },
-    { name: "CSS", category: "frontend", color: "from-blue-400 to-blue-500", icon: "🎨", glow: "blue" },
-    
+    {
+      name: "React.js",
+      category: "frontend",
+      color: "from-cyan-500 to-cyan-600",
+      icon: "⚛️",
+      glow: "cyan",
+    },
+    {
+      name: "Angular",
+      category: "frontend",
+      color: "from-red-600 to-rose-700",
+      icon: "🅰️",
+      glow: "red",
+    },
+    {
+      name: "Next.js",
+      category: "frontend",
+      color: "from-slate-600 to-slate-700",
+      icon: "▲",
+      glow: "gray",
+    },
+    {
+      name: "Tailwind CSS",
+      category: "frontend",
+      color: "from-cyan-400 to-cyan-500",
+      icon: "🌊",
+      glow: "cyan",
+    },
+    {
+      name: "HTML",
+      category: "frontend",
+      color: "from-orange-500 to-orange-600",
+      icon: "🏷️",
+      glow: "orange",
+    },
+    {
+      name: "CSS",
+      category: "frontend",
+      color: "from-blue-400 to-blue-500",
+      icon: "🎨",
+      glow: "blue",
+    },
+
     // Backend
-    { name: "Node.js", category: "backend", color: "from-green-500 to-green-600", icon: "⬢", glow: "green" },
-    { name: "Express.js", category: "backend", color: "from-gray-600 to-gray-700", icon: "Ex", glow: "gray" },
-    { name: "REST APIs", category: "backend", color: "from-purple-500 to-purple-600", icon: "🔌", glow: "purple" },
-    
+    {
+      name: "Node.js",
+      category: "backend",
+      color: "from-green-500 to-green-600",
+      icon: "⬢",
+      glow: "green",
+    },
+    {
+      name: ".NET Core",
+      category: "backend",
+      color: "from-indigo-600 to-violet-700",
+      icon: ".NET",
+      glow: "indigo",
+    },
+    {
+      name: "Spring Boot",
+      category: "backend",
+      color: "from-emerald-600 to-lime-700",
+      icon: "🍃",
+      glow: "green",
+    },
+    {
+      name: "Express.js",
+      category: "backend",
+      color: "from-gray-600 to-gray-700",
+      icon: "Ex",
+      glow: "gray",
+    },
+    {
+      name: "REST APIs",
+      category: "backend",
+      color: "from-purple-500 to-purple-600",
+      icon: "🔌",
+      glow: "purple",
+    },
+
     // Databases
-    { name: "MongoDB", category: "database", color: "from-green-600 to-green-700", icon: "🍃", glow: "green" },
-    { name: "MySQL", category: "database", color: "from-blue-600 to-blue-700", icon: "🗄️", glow: "blue" },
-    { name: "SQL Server", category: "database", color: "from-red-600 to-red-700", icon: "🖥️", glow: "red" },
-    
+    {
+      name: "MongoDB",
+      category: "database",
+      color: "from-green-600 to-green-700",
+      icon: "🍃",
+      glow: "green",
+    },
+    {
+      name: "MySQL",
+      category: "database",
+      color: "from-blue-600 to-blue-700",
+      icon: "🗄️",
+      glow: "blue",
+    },
+    {
+      name: "SQL Server",
+      category: "database",
+      color: "from-red-600 to-red-700",
+      icon: "🖥️",
+      glow: "red",
+    },
+
     // Tools & Platforms
-    { name: "Git", category: "tools", color: "from-orange-600 to-orange-700", icon: "🔀", glow: "orange" },
-    { name: "GitHub", category: "tools", color: "from-slate-700 to-slate-800", icon: "🐙", glow: "gray" },
-    { name: "Postman", category: "tools", color: "from-orange-500 to-orange-600", icon: "📮", glow: "orange" },
-    { name: "AWS", category: "tools", color: "from-orange-600 to-orange-700", icon: "☁️", glow: "orange" },
-    { name: "Auth0", category: "tools", color: "from-red-500 to-red-600", icon: "🔐", glow: "red" },
-    
+    {
+      name: "Git",
+      category: "tools",
+      color: "from-orange-600 to-orange-700",
+      icon: "🔀",
+      glow: "orange",
+    },
+    {
+      name: "GitHub",
+      category: "tools",
+      color: "from-slate-700 to-slate-800",
+      icon: "🐙",
+      glow: "gray",
+    },
+    {
+      name: "Postman",
+      category: "tools",
+      color: "from-orange-500 to-orange-600",
+      icon: "📮",
+      glow: "orange",
+    },
+    {
+      name: "AWS",
+      category: "tools",
+      color: "from-orange-600 to-orange-700",
+      icon: "☁️",
+      glow: "orange",
+    },
+    {
+      name: "Auth0",
+      category: "tools",
+      color: "from-red-500 to-red-600",
+      icon: "🔐",
+      glow: "red",
+    },
+
     // Mobile & IoT
-    { name: "Flutter", category: "mobile", color: "from-sky-400 to-sky-500", icon: "📱", glow: "sky" },
-    { name: "IoT", category: "mobile", color: "from-purple-600 to-purple-700", icon: "🔌", glow: "purple" },
+    {
+      name: "Flutter",
+      category: "mobile",
+      color: "from-sky-400 to-sky-500",
+      icon: "📱",
+      glow: "sky",
+    },
+    {
+      name: "IoT",
+      category: "mobile",
+      color: "from-purple-600 to-purple-700",
+      icon: "🔌",
+      glow: "purple",
+    },
   ];
 
   const expertiseAreas = [
     {
       icon: <Code2 size={40} />,
       title: "Full Stack Web Development",
-      description: "Building complete web applications from frontend to backend using modern MERN stack technologies",
-      skills: ["React.js", "Node.js", "Express.js", "REST APIs", "Responsive Design"],
-      color: "from-blue-500 to-cyan-500"
+      description:
+        "Building complete web applications using modern JavaScript and enterprise frameworks across frontend and backend",
+      skills: [
+        "React.js",
+        "Angular",
+        "Node.js",
+        ".NET Core",
+        "Spring Boot",
+        "REST APIs",
+      ],
+      color: "from-blue-500 to-cyan-500",
     },
     {
       icon: <Database size={40} />,
       title: "Database Design & Management",
-      description: "Designing and managing relational and NoSQL databases with efficient schemas",
+      description:
+        "Designing and managing relational and NoSQL databases with efficient schemas",
       skills: ["MongoDB", "MySQL", "SQL Server", "SQL Queries"],
-      color: "from-green-500 to-emerald-500"
+      color: "from-green-500 to-emerald-500",
     },
     {
       icon: <Layers size={40} />,
       title: "Frontend Development",
-      description: "Creating modern, responsive, and interactive user interfaces with React and Tailwind CSS",
-      skills: ["React.js", "Next.js", "Tailwind CSS", "HTML", "CSS"],
-      color: "from-purple-500 to-pink-500"
+      description:
+        "Creating modern, responsive, and interactive user interfaces with React, Angular, and Tailwind CSS",
+      skills: ["React.js", "Angular", "Next.js", "Tailwind CSS", "HTML", "CSS"],
+      color: "from-purple-500 to-pink-500",
     },
     {
       icon: <Wrench size={40} />,
       title: "Mobile & IoT Development",
-      description: "Developing cross-platform mobile applications and IoT solutions",
+      description:
+        "Developing cross-platform mobile applications and IoT solutions",
       skills: ["Flutter", "IoT Integration", "Mobile Apps"],
-      color: "from-orange-500 to-red-500"
+      color: "from-orange-500 to-red-500",
     },
     {
       icon: <Shield size={40} />,
       title: "Authentication & Security",
-      description: "Implementing secure authentication and access control solutions",
+      description:
+        "Implementing secure authentication and access control solutions",
       skills: ["Auth0", "JWT Authentication", "Role-Based Access Control"],
-      color: "from-red-500 to-pink-500"
-    }
+      color: "from-red-500 to-pink-500",
+    },
   ];
 
-  const filteredSkills = activeCategory === 'all' 
-    ? allSkills 
-    : allSkills.filter(skill => skill.category === activeCategory);
+  const filteredSkills =
+    activeCategory === "all"
+      ? allSkills
+      : allSkills.filter((skill) => skill.category === activeCategory);
 
   const categories = [
-    { id: 'all', label: 'All Skills', icon: '⭐' },
-    { id: 'languages', label: 'Languages', icon: '📝' },
-    { id: 'frontend', label: 'Frontend', icon: '🎨' },
-    { id: 'backend', label: 'Backend', icon: '⚙️' },
-    { id: 'database', label: 'Database', icon: '🗄️' },
-    { id: 'tools', label: 'Tools', icon: '🛠️' },
-    { id: 'mobile', label: 'Mobile & IoT', icon: '📱' },
+    { id: "all", label: "All Skills", icon: "⭐" },
+    { id: "languages", label: "Languages", icon: "📝" },
+    { id: "frontend", label: "Frontend", icon: "🎨" },
+    { id: "backend", label: "Backend", icon: "⚙️" },
+    { id: "database", label: "Database", icon: "🗄️" },
+    { id: "tools", label: "Tools", icon: "🛠️" },
+    { id: "mobile", label: "Mobile & IoT", icon: "📱" },
   ];
 
   return (
-    <section id="skills" className="py-20 bg-gradient-to-b from-black via-slate-900 to-black relative overflow-hidden">
+    <section
+      id="skills"
+      className="py-20 bg-gradient-to-b from-black via-slate-900 to-black relative overflow-hidden"
+    >
       {/* Background particles */}
       <div className="absolute inset-0">
         <div className="absolute top-0 left-0 w-96 h-96 bg-cyan-500 rounded-full mix-blend-screen filter blur-3xl opacity-20 animate-float"></div>
@@ -107,7 +298,7 @@ export default function Skills() {
       <div className="container mx-auto px-6 relative z-10">
         <div className="max-w-7xl mx-auto">
           {/* Section heading */}
-          <motion.div 
+          <motion.div
             className="text-center mb-16"
             initial={{ y: 50, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
@@ -119,12 +310,13 @@ export default function Skills() {
             </h2>
             <div className="h-1 w-32 bg-gradient-to-r from-cyan-500 to-blue-500 mx-auto mb-6 rounded-full shadow-lg shadow-cyan-500/50"></div>
             <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-              A comprehensive toolkit of modern technologies and frameworks I actively use to build scalable, efficient solutions
+              A comprehensive toolkit of modern technologies and frameworks I
+              actively use to build scalable, efficient solutions
             </p>
           </motion.div>
 
           {/* Category Filter */}
-          <motion.div 
+          <motion.div
             className="flex flex-wrap justify-center gap-3 mb-16"
             initial={{ y: 30, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
@@ -137,8 +329,8 @@ export default function Skills() {
                 onClick={() => setActiveCategory(cat.id)}
                 className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 border flex items-center gap-2 ${
                   activeCategory === cat.id
-                    ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white border-cyan-400/60 shadow-lg shadow-cyan-500/50'
-                    : 'bg-slate-800/50 text-gray-300 border-white/20 hover:border-cyan-400/40 hover:bg-slate-700/50'
+                    ? "bg-gradient-to-r from-cyan-500 to-blue-500 text-white border-cyan-400/60 shadow-lg shadow-cyan-500/50"
+                    : "bg-slate-800/50 text-gray-300 border-white/20 hover:border-cyan-400/40 hover:bg-slate-700/50"
                 }`}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -150,51 +342,54 @@ export default function Skills() {
           </motion.div>
 
           {/* Interactive Skill Balls */}
-          <motion.div 
+          <motion.div
             className="mb-20"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.3 }}
             viewport={{ once: true }}
           >
-            <div className="flex flex-wrap justify-center gap-6 items-center perspective" style={{ perspective: '1200px' }}>
+            <div
+              className="flex flex-wrap justify-center gap-6 items-center perspective"
+              style={{ perspective: "1200px" }}
+            >
               {filteredSkills.map((skill, idx) => {
                 // Generate random starting position for each ball
                 const randomX = (Math.random() - 0.5) * 400;
                 const randomY = (Math.random() - 0.5) * 400;
                 const randomZ = (Math.random() - 0.5) * 200;
-                
+
                 return (
                   <motion.div
                     key={idx}
                     className="group relative"
-                    initial={{ 
-                      x: randomX, 
-                      y: randomY, 
+                    initial={{
+                      x: randomX,
+                      y: randomY,
                       z: randomZ,
                       opacity: 0,
-                      scale: 0.5
+                      scale: 0.5,
                     }}
-                    whileInView={{ 
-                      x: 0, 
-                      y: 0, 
+                    whileInView={{
+                      x: 0,
+                      y: 0,
                       z: 0,
                       opacity: 1,
-                      scale: 1
+                      scale: 1,
                     }}
-                    transition={{ 
-                      duration: 0.8, 
+                    transition={{
+                      duration: 0.8,
                       delay: idx * 0.08,
                       type: "spring",
                       stiffness: 100,
-                      damping: 15
+                      damping: 15,
                     }}
                     viewport={{ once: true }}
-                    whileHover={{ 
-                      scale: 1.15, 
+                    whileHover={{
+                      scale: 1.15,
                       rotateX: 10,
                       rotateY: 10,
-                      z: 50
+                      z: 50,
                     }}
                   >
                     {/* Glow background */}
@@ -203,13 +398,15 @@ export default function Skills() {
                     {/* Ball */}
                     <div
                       className="relative w-24 h-24 rounded-full flex flex-col items-center justify-center font-bold text-white cursor-pointer transition-all duration-300 transform group-hover:shadow-2xl border border-white/30 backdrop-blur-xl overflow-hidden shadow-xl"
-                      style={{
-                        background: `linear-gradient(135deg, var(--tw-gradient-stops))`,
-                        '--tw-gradient-from': skill.color.split(' ')[1],
-                        '--tw-gradient-to': skill.color.split(' ')[3],
-                        boxShadow: `0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)`,
-                        transformStyle: 'preserve-3d',
-                      } as any}
+                      style={
+                        {
+                          background: `linear-gradient(135deg, var(--tw-gradient-stops))`,
+                          "--tw-gradient-from": skill.color.split(" ")[1],
+                          "--tw-gradient-to": skill.color.split(" ")[3],
+                          boxShadow: `0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)`,
+                          transformStyle: "preserve-3d",
+                        } as any
+                      }
                     >
                       {/* Shine effect */}
                       <div className="absolute inset-0 bg-gradient-to-br from-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -220,11 +417,13 @@ export default function Skills() {
                       {/* Content */}
                       <div className="relative z-10 text-center">
                         <div className="text-2xl mb-1">{skill.icon}</div>
-                        <div className="text-xs font-bold uppercase tracking-wider">{skill.name.substring(0, 8)}</div>
+                        <div className="text-xs font-bold uppercase tracking-wider">
+                          {skill.name.substring(0, 8)}
+                        </div>
                       </div>
 
                       {/* Hover tooltip */}
-                      <motion.div 
+                      <motion.div
                         className="absolute bottom-full mb-3 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap bg-gradient-to-r from-slate-900 to-slate-800 px-3 py-2 rounded-lg text-sm border border-white/30 pointer-events-none shadow-lg"
                         initial={{ y: 5 }}
                         whileHover={{ y: -5 }}
@@ -240,7 +439,7 @@ export default function Skills() {
           </motion.div>
 
           {/* Expertise Areas */}
-          <motion.div 
+          <motion.div
             className="mb-16"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -265,7 +464,9 @@ export default function Skills() {
 
                   {/* Main card */}
                   <div className="relative bg-gradient-to-br from-slate-800/80 to-slate-900/80 backdrop-blur-xl rounded-2xl p-8 shadow-2xl hover:shadow-2xl transition-all duration-500 transform group-hover:-translate-y-3 border border-white/10 group-hover:border-white/30 h-full flex flex-col">
-                    <div className={`inline-flex p-4 rounded-xl bg-gradient-to-br ${area.color} text-white mb-6 shadow-lg group-hover:shadow-2xl transition-all duration-300 w-fit`}>
+                    <div
+                      className={`inline-flex p-4 rounded-xl bg-gradient-to-br ${area.color} text-white mb-6 shadow-lg group-hover:shadow-2xl transition-all duration-300 w-fit`}
+                    >
                       {area.icon}
                     </div>
 
@@ -295,7 +496,7 @@ export default function Skills() {
           </motion.div>
 
           {/* Stats section */}
-          <motion.div 
+          <motion.div
             className="mt-20 pt-16 border-t border-white/10"
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -304,9 +505,13 @@ export default function Skills() {
           >
             <div className="grid grid-cols-3 gap-6 md:gap-10">
               {[
-                { icon: <Star size={32} />, value: '22', label: 'Technologies' },
-                { icon: <Target size={32} />, value: '11', label: 'Projects' },
-                { icon: <Zap size={32} />, value: '7', label: 'Categories' },
+                {
+                  icon: <Star size={32} />,
+                  value: "22",
+                  label: "Technologies",
+                },
+                { icon: <Target size={32} />, value: "11", label: "Projects" },
+                { icon: <Zap size={32} />, value: "7", label: "Categories" },
               ].map((stat, idx) => (
                 <motion.div
                   key={idx}

@@ -1,33 +1,72 @@
-import { Github, Linkedin, Mail, MapPin, Phone, Code2, Database, Zap, Shield } from 'lucide-react';
-import { motion } from 'framer-motion';
+import {
+  Github,
+  Linkedin,
+  Mail,
+  MapPin,
+  Phone,
+  Code2,
+  Database,
+  Zap,
+  Shield,
+} from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function Hero() {
   const techStack = [
-    { icon: Code2, label: 'React', color: 'text-cyan-400', bg: 'from-cyan-500/20 to-cyan-500/10' },
-    { icon: Database, label: 'MongoDB', color: 'text-green-400', bg: 'from-green-500/20 to-green-500/10' },
-    { icon: Zap, label: 'Node.js', color: 'text-yellow-400', bg: 'from-yellow-500/20 to-yellow-500/10' },
-    { icon: Shield, label: 'TypeScript', color: 'text-blue-400', bg: 'from-blue-500/20 to-blue-500/10' },
+    {
+      icon: Code2,
+      label: "React",
+      color: "text-cyan-400",
+      bg: "from-cyan-500/20 to-cyan-500/10",
+    },
+    {
+      icon: Database,
+      label: "Angular",
+      color: "text-red-400",
+      bg: "from-red-500/20 to-red-500/10",
+    },
+    {
+      icon: Zap,
+      label: "Node.js",
+      color: "text-yellow-400",
+      bg: "from-yellow-500/20 to-yellow-500/10",
+    },
+    {
+      icon: Shield,
+      label: ".NET Core",
+      color: "text-indigo-300",
+      bg: "from-indigo-500/20 to-violet-500/10",
+    },
+    {
+      icon: Zap,
+      label: "Spring Boot",
+      color: "text-emerald-300",
+      bg: "from-emerald-500/20 to-lime-500/10",
+    },
   ];
 
   const stats = [
-    { label: 'Projects Built', value: '11', icon: '🚀' },
-    { label: 'GitHub Repos', value: '14+', icon: '💻' },
-    { label: 'Languages', value: '6+', icon: '⚡' },
+    { label: "Projects Built", value: "11", icon: "🚀" },
+    { label: "GitHub Repos", value: "14+", icon: "💻" },
+    { label: "Languages", value: "6+", icon: "⚡" },
   ];
 
   const allTechnologies = [
-    { name: 'JavaScript', category: 'Language' },
-    { name: 'TypeScript', category: 'Language' },
-    { name: 'React', category: 'Frontend' },
-    { name: 'Node.js', category: 'Backend' },
-    { name: 'Express.js', category: 'Backend' },
-    { name: 'MongoDB', category: 'Database' },
-    { name: 'MySQL', category: 'Database' },
-    { name: 'PHP', category: 'Backend' },
-    { name: 'HTML/CSS', category: 'Frontend' },
-    { name: 'Tailwind CSS', category: 'Frontend' },
-    { name: 'Git', category: 'Tools' },
-    { name: 'REST APIs', category: 'Backend' },
+    { name: "JavaScript", category: "Language" },
+    { name: "TypeScript", category: "Language" },
+    { name: "React", category: "Frontend" },
+    { name: "Node.js", category: "Backend" },
+    { name: ".NET Core", category: "Backend" },
+    { name: "Spring Boot", category: "Backend" },
+    { name: "Express.js", category: "Backend" },
+    { name: "MongoDB", category: "Database" },
+    { name: "MySQL", category: "Database" },
+    { name: "PHP", category: "Backend" },
+    { name: "Angular", category: "Frontend" },
+    { name: "HTML/CSS", category: "Frontend" },
+    { name: "Tailwind CSS", category: "Frontend" },
+    { name: "Git", category: "Tools" },
+    { name: "REST APIs", category: "Backend" },
   ];
 
   return (
@@ -72,7 +111,7 @@ export default function Hero() {
                 transition={{
                   duration: 4,
                   repeat: Infinity,
-                  ease: "easeInOut"
+                  ease: "easeInOut",
                 }}
               >
                 <div className="text-3xl">💻</div>
@@ -88,7 +127,7 @@ export default function Hero() {
                   duration: 5,
                   repeat: Infinity,
                   ease: "easeInOut",
-                  delay: 0.5
+                  delay: 0.5,
                 }}
               >
                 <div className="text-3xl">⚡</div>
@@ -104,7 +143,7 @@ export default function Hero() {
                   duration: 4.5,
                   repeat: Infinity,
                   ease: "easeInOut",
-                  delay: 1
+                  delay: 1,
                 }}
               >
                 <div className="text-2xl">🔧</div>
@@ -119,7 +158,7 @@ export default function Hero() {
                 transition={{
                   duration: 20,
                   repeat: Infinity,
-                  ease: "linear"
+                  ease: "linear",
                 }}
               >
                 <div className="absolute top-0 left-1/2 w-3 h-3 bg-cyan-400 rounded-full transform -translate-x-1/2 opacity-60"></div>
@@ -135,7 +174,7 @@ export default function Hero() {
                 transition={{
                   duration: 30,
                   repeat: Infinity,
-                  ease: "linear"
+                  ease: "linear",
                 }}
               >
                 <div className="absolute top-0 left-1/2 w-2 h-2 bg-cyan-300 rounded-full transform -translate-x-1/2 opacity-40"></div>
@@ -147,11 +186,11 @@ export default function Hero() {
                 {/* Static border */}
                 <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 p-1">
                   <div className="w-full h-full rounded-full bg-black flex items-center justify-center overflow-hidden">
-                    <img 
-                      src="/images/projects/ME.png" 
-                      alt="Venuka Sirimanne" 
+                    <img
+                      src="/images/projects/ME.png"
+                      alt="Venuka Sirimanne"
                       className="w-full h-full rounded-full object-cover saturate-110 scale-125"
-                      style={{ imageRendering: 'auto' }}
+                      style={{ imageRendering: "auto" }}
                     />
                   </div>
                 </div>
@@ -177,7 +216,9 @@ export default function Hero() {
               <div>
                 <h1 className="text-6xl md:text-7xl font-black mb-4 animate-slide-up leading-tight">
                   <span className="glow-text block">Venuka</span>
-                  <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 text-transparent bg-clip-text block">Sirimanne</span>
+                  <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 text-transparent bg-clip-text block">
+                    Sirimanne
+                  </span>
                 </h1>
 
                 <div className="h-1 w-24 bg-gradient-to-r from-cyan-500 to-blue-500 mx-auto md:mx-0 mb-8 animate-slide-up animation-delay-200 rounded-full shadow-lg shadow-cyan-500/50"></div>
@@ -188,13 +229,17 @@ export default function Hero() {
                   Software Developer
                 </p>
                 <p className="text-lg md:text-xl text-gray-400 mb-6 leading-relaxed max-w-md">
-                  Crafting cutting-edge web applications with MERN stack. Building scalable solutions that solve real-world problems with clean, efficient code.
+                  Crafting cutting-edge web applications across MERN, .NET Core,
+                  Angular, and Spring Boot ecosystems. Building scalable
+                  solutions for real-world problems with clean, efficient code.
                 </p>
               </div>
 
               {/* Tech stack floating badges */}
               <div>
-                <p className="text-gray-400 mb-4 text-sm uppercase tracking-widest font-semibold">Tech Stack</p>
+                <p className="text-gray-400 mb-4 text-sm uppercase tracking-widest font-semibold">
+                  Tech Stack
+                </p>
                 <div className="flex flex-wrap justify-start gap-3">
                   {techStack.map((tech, idx) => {
                     const Icon = tech.icon;
@@ -207,7 +252,10 @@ export default function Hero() {
                         transition={{ duration: 0.5, delay: 0.6 + idx * 0.1 }}
                         whileHover={{ scale: 1.05, y: -5 }}
                       >
-                        <Icon className={`inline mr-2 ${tech.color} group-hover:animate-spin`} size={16} />
+                        <Icon
+                          className={`inline mr-2 ${tech.color} group-hover:animate-spin`}
+                          size={16}
+                        />
                         {tech.label}
                       </motion.div>
                     );
@@ -258,19 +306,23 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 1.4 }}
           >
             {stats.map((stat, idx) => (
-              <motion.div 
-                key={idx} 
+              <motion.div
+                key={idx}
                 className="text-center group cursor-pointer"
                 whileHover={{ scale: 1.05 }}
               >
                 <div className="relative">
                   <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-cyan-500/30 to-blue-500/30 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   <div className="relative p-6 rounded-lg bg-gradient-to-br from-slate-800/60 to-slate-900/60 border border-white/10 group-hover:border-cyan-400/60 transition-all duration-300 hover:shadow-2xl hover:shadow-cyan-500/20">
-                    <div className="text-4xl mb-3 animate-bounce">{stat.icon}</div>
+                    <div className="text-4xl mb-3 animate-bounce">
+                      {stat.icon}
+                    </div>
                     <p className="text-4xl md:text-5xl font-black bg-gradient-to-r from-cyan-400 to-blue-400 text-transparent bg-clip-text mb-2">
                       {stat.value}
                     </p>
-                    <p className="text-gray-400 text-sm md:text-base font-semibold">{stat.label}</p>
+                    <p className="text-gray-400 text-sm md:text-base font-semibold">
+                      {stat.label}
+                    </p>
                     <div className="mt-4 h-1 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </div>
                 </div>
@@ -286,12 +338,20 @@ export default function Hero() {
             transition={{ duration: 0.8, delay: 1.6 }}
           >
             <div className="flex flex-wrap justify-center gap-6 md:gap-8 text-sm">
-              <a href="mailto:venukasirimanne1121@gmail.com" className="flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-all duration-300 group px-4 py-2 rounded-lg hover:bg-cyan-500/10 border border-transparent hover:border-cyan-500/30">
+              <a
+                href="mailto:venukasirimanne1121@gmail.com"
+                className="flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-all duration-300 group px-4 py-2 rounded-lg hover:bg-cyan-500/10 border border-transparent hover:border-cyan-500/30"
+              >
                 <Mail size={18} className="group-hover:animate-bounce" />
-                <span className="hidden sm:inline">venukasirimanne1121@gmail.com</span>
+                <span className="hidden sm:inline">
+                  venukasirimanne1121@gmail.com
+                </span>
                 <span className="sm:hidden">Email</span>
               </a>
-              <a href="tel:+94771292336" className="flex items-center gap-2 text-gray-400 hover:text-blue-400 transition-all duration-300 group px-4 py-2 rounded-lg hover:bg-blue-500/10 border border-transparent hover:border-blue-500/30">
+              <a
+                href="tel:+94771292336"
+                className="flex items-center gap-2 text-gray-400 hover:text-blue-400 transition-all duration-300 group px-4 py-2 rounded-lg hover:bg-blue-500/10 border border-transparent hover:border-blue-500/30"
+              >
                 <Phone size={18} className="group-hover:animate-bounce" />
                 <span>+94 77 129 2336</span>
               </a>
@@ -311,7 +371,10 @@ export default function Hero() {
                 whileHover={{ rotate: 5 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Github size={24} className="text-gray-400 group-hover:text-cyan-400 transition-colors" />
+                <Github
+                  size={24}
+                  className="text-gray-400 group-hover:text-cyan-400 transition-colors"
+                />
               </motion.a>
               <motion.a
                 href="https://www.linkedin.com/in/venuka-sirimanne21-"
@@ -321,7 +384,10 @@ export default function Hero() {
                 whileHover={{ rotate: -5 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Linkedin size={24} className="text-gray-400 group-hover:text-blue-400 transition-colors" />
+                <Linkedin
+                  size={24}
+                  className="text-gray-400 group-hover:text-blue-400 transition-colors"
+                />
               </motion.a>
             </div>
           </motion.div>
@@ -330,7 +396,9 @@ export default function Hero() {
         {/* Scroll indicator */}
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
           <div className="flex flex-col items-center gap-2">
-            <span className="text-xs text-gray-500 uppercase tracking-widest">Scroll</span>
+            <span className="text-xs text-gray-500 uppercase tracking-widest">
+              Scroll
+            </span>
             <div className="w-6 h-10 border-2 border-gray-600 rounded-full flex justify-center relative">
               <div className="w-1 h-3 bg-gradient-to-b from-cyan-400 to-transparent rounded-full mt-2 animate-wave"></div>
             </div>
