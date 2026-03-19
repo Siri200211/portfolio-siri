@@ -1,6 +1,6 @@
 [build]
-  base = "."
-  publish = "dist"
+  base = "portfolio-siri-master/frontend"
+  publish = "portfolio-siri-master/frontend/dist"
   command = "npm run build"
 
 [[redirects]]
