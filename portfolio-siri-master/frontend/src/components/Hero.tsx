@@ -1,3 +1,6 @@
+import { useRef, useEffect } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   Github,
   Linkedin,
@@ -9,39 +12,49 @@ import {
   Zap,
   Shield,
 } from "lucide-react";
-import { motion } from "framer-motion";
+import MagneticButton from "./MagneticButton";
+import TextReveal from "./TextReveal";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Hero() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const avatarRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const statsRef = useRef<HTMLDivElement>(null);
+  const techRef = useRef<HTMLDivElement>(null);
+  const orbRef = useRef<HTMLDivElement>(null);
+
   const techStack = [
     {
       icon: Code2,
       label: "React",
       color: "text-cyan-400",
-      bg: "from-cyan-500/20 to-cyan-500/10",
+      bg: "from-cyan-500/20 to-cyan-500/5",
     },
     {
       icon: Database,
       label: "Angular",
       color: "text-red-400",
-      bg: "from-red-500/20 to-red-500/10",
+      bg: "from-red-500/20 to-red-500/5",
     },
     {
       icon: Zap,
       label: "Node.js",
       color: "text-yellow-400",
-      bg: "from-yellow-500/20 to-yellow-500/10",
+      bg: "from-yellow-500/20 to-yellow-500/5",
     },
     {
       icon: Shield,
       label: ".NET Core",
       color: "text-indigo-300",
-      bg: "from-indigo-500/20 to-violet-500/10",
+      bg: "from-indigo-500/20 to-violet-500/5",
     },
     {
       icon: Zap,
       label: "Spring Boot",
       color: "text-emerald-300",
-      bg: "from-emerald-500/20 to-lime-500/10",
+      bg: "from-emerald-500/20 to-lime-500/5",
     },
   ];
 
@@ -51,300 +64,299 @@ export default function Hero() {
     { label: "Languages", value: "6+", icon: "⚡" },
   ];
 
-  const allTechnologies = [
-    { name: "JavaScript", category: "Language" },
-    { name: "TypeScript", category: "Language" },
-    { name: "React", category: "Frontend" },
-    { name: "Node.js", category: "Backend" },
-    { name: ".NET Core", category: "Backend" },
-    { name: "Spring Boot", category: "Backend" },
-    { name: "Express.js", category: "Backend" },
-    { name: "MongoDB", category: "Database" },
-    { name: "MySQL", category: "Database" },
-    { name: "MS SQL", category: "Database" },
-    { name: "PHP", category: "Backend" },
-    { name: "Angular", category: "Frontend" },
-    { name: "HTML/CSS", category: "Frontend" },
-    { name: "Tailwind CSS", category: "Frontend" },
-    { name: "Git", category: "Tools" },
-    { name: "Azure", category: "Tools" },
-    { name: "REST APIs", category: "Backend" },
-  ];
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        avatarRef.current,
+        { opacity: 0, scale: 0.5, rotateY: -90 },
+        {
+          opacity: 1,
+          scale: 1,
+          rotateY: 0,
+          duration: 1.5,
+          ease: "power4.out",
+          delay: 0.5,
+        },
+      );
+
+      if (contentRef.current) {
+        const elements = contentRef.current.querySelectorAll(".hero-animate");
+        gsap.fromTo(
+          elements,
+          { opacity: 0, y: 60, rotateX: -15 },
+          {
+            opacity: 1,
+            y: 0,
+            rotateX: 0,
+            stagger: 0.15,
+            duration: 1,
+            ease: "power3.out",
+            delay: 0.8,
+          },
+        );
+      }
+
+      if (techRef.current) {
+        const badges = techRef.current.querySelectorAll(".tech-item");
+        gsap.fromTo(
+          badges,
+          { opacity: 0, scale: 0, rotation: -180 },
+          {
+            opacity: 1,
+            scale: 1,
+            rotation: 0,
+            stagger: 0.1,
+            duration: 0.8,
+            ease: "back.out(1.7)",
+            delay: 1.5,
+          },
+        );
+      }
+
+      if (statsRef.current) {
+        const statCards = statsRef.current.querySelectorAll(".stat-card");
+        gsap.fromTo(
+          statCards,
+          { opacity: 0, y: 100, scale: 0.8 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            stagger: 0.2,
+            duration: 0.8,
+            ease: "power3.out",
+            delay: 2,
+          },
+        );
+      }
+
+      gsap.to(avatarRef.current, {
+        y: -50,
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: 1,
+        },
+      });
+
+      if (orbRef.current) {
+        gsap.to(orbRef.current, {
+          rotation: 360,
+          duration: 30,
+          repeat: -1,
+          ease: "none",
+        });
+      }
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <section className="min-h-screen flex items-center justify-center relative overflow-hidden bg-black">
-      {/* Animated gradient background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950"></div>
+    <section
+      ref={sectionRef}
+      className="min-h-screen flex items-center justify-center relative overflow-hidden bg-black"
+    >
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-blue-950/50 to-slate-950"></div>
 
-      {/* Animated orbs */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-cyan-500 rounded-full mix-blend-screen filter blur-3xl opacity-20 animate-float"></div>
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-600 rounded-full mix-blend-screen filter blur-3xl opacity-20 animate-float-delay"></div>
-      <div className="absolute top-1/2 left-0 w-96 h-96 bg-purple-500 rounded-full mix-blend-screen filter blur-3xl opacity-10 animate-pulse"></div>
+      <div className="absolute inset-0 opacity-30">
+        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-cyan-500 rounded-full mix-blend-screen filter blur-[120px] animate-float"></div>
+        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-blue-600 rounded-full mix-blend-screen filter blur-[120px] animate-float-delay"></div>
+        <div className="absolute top-1/2 left-0 w-[400px] h-[400px] bg-purple-500 rounded-full mix-blend-screen filter blur-[100px] animate-pulse"></div>
+      </div>
 
-      {/* Additional floating elements */}
-      <div className="absolute top-20 right-20 w-32 h-32 bg-cyan-400 rounded-full mix-blend-screen filter blur-2xl opacity-10 animate-float-slow"></div>
-      <div className="absolute bottom-32 left-1/3 w-40 h-40 bg-blue-400 rounded-full mix-blend-screen filter blur-2xl opacity-5 animate-pulse"></div>
+      {/* Perspective grid floor */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div
+          className="absolute bottom-0 left-0 right-0 h-[60vh]"
+          style={{
+            background:
+              "linear-gradient(180deg, transparent 0%, rgba(6, 182, 212, 0.03) 100%)",
+            transform: "perspective(500px) rotateX(60deg)",
+            transformOrigin: "bottom",
+            backgroundImage: `linear-gradient(rgba(6, 182, 212, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(6, 182, 212, 0.08) 1px, transparent 1px)`,
+            backgroundSize: "60px 60px",
+          }}
+        />
+      </div>
 
-      {/* Grid background */}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZGVmcz48cGF0dGVybiBpZD0iZ3JpZCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjYwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj48cGF0aCBkPSJNIDYwIDAgTCAwIDAgMCA2MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDU5LCAxMzAsIDI0NiwgMC4xKSIgc3Ryb2tlLXdpZHRoPSIxIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2dyaWQpIi8+PC9zdmc+')] opacity-30"></div>
-
-      {/* Animated lines */}
-      <div className="absolute top-1/4 left-0 w-1 h-32 bg-gradient-to-b from-cyan-500 to-transparent opacity-30 blur-sm"></div>
-      <div className="absolute top-1/3 right-0 w-1 h-40 bg-gradient-to-b from-blue-500 to-transparent opacity-30 blur-sm"></div>
+      <div className="absolute inset-0 noise-overlay opacity-[0.03]"></div>
 
       <div className="container mx-auto px-6 py-20 relative z-10">
-        <div className="max-w-6xl mx-auto">
-          {/* Main content grid */}
-          <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
-            {/* Left side - Avatar with floating elements */}
-            <motion.div
-              className="flex justify-center md:justify-end relative md:-translate-x-12"
-              initial={{ x: -100, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-16 items-center mb-16">
+            {/* Avatar */}
+            <div
+              ref={avatarRef}
+              className="flex justify-center md:justify-end relative"
+              style={{ perspective: "1000px" }}
             >
-              {/* Floating animated cards */}
-              <motion.div
-                className="absolute -left-12 top-10 w-20 h-20 bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border border-cyan-400/50 rounded-lg flex items-center justify-center backdrop-blur-sm"
-                animate={{
-                  y: [0, -20, 0],
-                  rotate: [0, 5, 0],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
+              <div
+                ref={orbRef}
+                className="absolute w-[320px] h-[320px] md:w-[380px] md:h-[380px] rounded-full border border-cyan-500/10"
               >
-                <div className="text-3xl">💻</div>
-              </motion.div>
+                <div className="absolute top-0 left-1/2 w-3 h-3 bg-cyan-400 rounded-full -translate-x-1/2 -translate-y-1/2 shadow-[0_0_15px_rgba(6,182,212,0.8)]" />
+                <div className="absolute bottom-0 left-1/2 w-2 h-2 bg-purple-400 rounded-full -translate-x-1/2 translate-y-1/2 shadow-[0_0_10px_rgba(168,85,247,0.8)]" />
+                <div className="absolute top-1/2 left-0 w-2 h-2 bg-blue-400 rounded-full -translate-x-1/2 -translate-y-1/2 shadow-[0_0_10px_rgba(96,165,250,0.8)]" />
+              </div>
 
-              <motion.div
-                className="absolute -left-16 bottom-16 w-18 h-18 bg-gradient-to-br from-purple-500/20 to-pink-500/20 border border-purple-400/50 rounded-full flex items-center justify-center backdrop-blur-sm"
-                animate={{
-                  y: [0, 15, 0],
-                  rotate: [0, -5, 0],
-                }}
-                transition={{
-                  duration: 5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 0.5,
-                }}
-              >
-                <div className="text-3xl">⚡</div>
-              </motion.div>
-
-              <motion.div
-                className="absolute -left-6 -top-8 w-16 h-16 bg-gradient-to-br from-green-500/20 to-emerald-500/20 border border-green-400/50 rounded-lg flex items-center justify-center backdrop-blur-sm"
-                animate={{
-                  y: [0, -15, 0],
-                  rotate: [0, 8, 0],
-                }}
-                transition={{
-                  duration: 4.5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 1,
-                }}
-              >
-                <div className="text-2xl">🔧</div>
-              </motion.div>
-
-              {/* Orbiting circles */}
-              <motion.div
-                className="absolute inset-0 w-72 h-72 -z-20"
-                animate={{
-                  rotate: 360,
-                }}
-                transition={{
-                  duration: 20,
-                  repeat: Infinity,
-                  ease: "linear",
-                }}
-              >
-                <div className="absolute top-0 left-1/2 w-3 h-3 bg-cyan-400 rounded-full transform -translate-x-1/2 opacity-60"></div>
-                <div className="absolute bottom-0 left-1/2 w-3 h-3 bg-blue-400 rounded-full transform -translate-x-1/2 opacity-60"></div>
-                <div className="absolute top-1/2 left-0 w-3 h-3 bg-purple-400 rounded-full transform -translate-y-1/2 opacity-60"></div>
-              </motion.div>
-
-              <motion.div
-                className="absolute inset-0 w-96 h-96 -z-20"
-                animate={{
-                  rotate: -360,
-                }}
-                transition={{
-                  duration: 30,
-                  repeat: Infinity,
-                  ease: "linear",
-                }}
-              >
-                <div className="absolute top-0 left-1/2 w-2 h-2 bg-cyan-300 rounded-full transform -translate-x-1/2 opacity-40"></div>
-                <div className="absolute top-1/4 right-0 w-2 h-2 bg-blue-300 rounded-full opacity-40"></div>
-                <div className="absolute bottom-1/4 right-0 w-2 h-2 bg-purple-300 rounded-full opacity-40"></div>
-              </motion.div>
-
-              <div className="relative w-72 h-72">
-                {/* Static border */}
-                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 p-1">
+              <div className="relative w-64 h-64 md:w-72 md:h-72 group">
+                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 p-[2px] animate-spin-slow">
                   <div className="w-full h-full rounded-full bg-black flex items-center justify-center overflow-hidden">
                     <img
                       src="/images/projects/ME.png"
                       alt="Venuka Sirimanne"
-                      className="w-full h-full rounded-full object-cover saturate-110 scale-125"
-                      style={{ imageRendering: "auto" }}
+                      className="w-full h-full rounded-full object-cover saturate-110 scale-125 group-hover:scale-[1.3] transition-transform duration-700"
                     />
                   </div>
                 </div>
-                {/* Corner accents */}
-                <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-cyan-400"></div>
-                <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-blue-400"></div>
-                <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-purple-400"></div>
-                <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-cyan-400"></div>
-
-                {/* Glow effect background */}
-                <div className="absolute inset-0 rounded-full bg-cyan-500/20 blur-2xl -z-10"></div>
+                <div className="absolute inset-0 rounded-full bg-cyan-500/20 blur-2xl -z-10 group-hover:bg-cyan-500/30 transition-all duration-500"></div>
                 <div className="absolute inset-0 rounded-full bg-blue-500/10 blur-3xl -z-10 animate-pulse"></div>
-              </div>
-            </motion.div>
 
-            {/* Right side - Text content */}
-            <motion.div
+                <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 px-4 py-1.5 bg-black/80 border border-cyan-500/30 rounded-full backdrop-blur-sm">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
+                    <span className="text-xs font-mono text-cyan-300">
+                      Available
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="absolute -left-8 top-12 w-14 h-14 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 border border-cyan-400/30 rounded-xl flex items-center justify-center backdrop-blur-sm animate-floating-3d">
+                <span className="text-2xl">⚛️</span>
+              </div>
+              <div className="absolute -right-4 top-20 w-12 h-12 bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-400/30 rounded-lg flex items-center justify-center backdrop-blur-sm animate-floating-3d animation-delay-1000">
+                <span className="text-xl">🔧</span>
+              </div>
+              <div className="absolute -left-4 bottom-20 w-12 h-12 bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-400/30 rounded-full flex items-center justify-center backdrop-blur-sm animate-floating-3d animation-delay-600">
+                <span className="text-xl">⚡</span>
+              </div>
+            </div>
+
+            {/* Content */}
+            <div
+              ref={contentRef}
               className="text-center md:text-left space-y-8"
-              initial={{ x: 100, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
+              style={{ perspective: "1000px" }}
             >
-              <div>
-                <h1 className="text-6xl md:text-7xl font-black mb-4 animate-slide-up leading-tight">
-                  <span className="glow-text block">Venuka</span>
-                  <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 text-transparent bg-clip-text block">
-                    Sirimanne
-                  </span>
-                </h1>
-
-                <div className="h-1 w-24 bg-gradient-to-r from-cyan-500 to-blue-500 mx-auto md:mx-0 mb-8 animate-slide-up animation-delay-200 rounded-full shadow-lg shadow-cyan-500/50"></div>
+              <div className="hero-animate">
+                <span className="text-sm font-mono text-cyan-400/80 tracking-[0.2em] uppercase mb-4 inline-block border border-cyan-500/20 px-3 py-1 rounded-full bg-cyan-500/5">
+                  &lt;Full Stack Developer /&gt;
+                </span>
               </div>
 
-              <div>
-                <p className="text-3xl md:text-4xl font-bold text-transparent bg-gradient-to-r from-cyan-300 to-blue-300 bg-clip-text mb-4 animate-slide-up animation-delay-400">
-                  Software Developer
-                </p>
-                <p className="text-lg md:text-xl text-gray-400 mb-6 leading-relaxed max-w-md">
-                  Crafting cutting-edge web applications across MERN, .NET Core,
-                  Angular, and Spring Boot ecosystems. Building scalable
-                  solutions for real-world problems with clean, efficient code.
-                </p>
+              <div className="hero-animate">
+                <TextReveal
+                  className="text-6xl md:text-7xl lg:text-8xl font-black leading-[0.9] tracking-tight text-white"
+                  delay={1}
+                >
+                  Venuka
+                </TextReveal>
+                <TextReveal
+                  className="text-6xl md:text-7xl lg:text-8xl font-black bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 text-transparent bg-clip-text leading-[0.9] tracking-tight"
+                  delay={1.2}
+                >
+                  Sirimanne
+                </TextReveal>
               </div>
 
-              {/* Tech stack floating badges */}
-              <div>
-                <p className="text-gray-400 mb-4 text-sm uppercase tracking-widest font-semibold">
-                  Tech Stack
+              <div className="hero-animate">
+                <div className="h-[2px] w-24 bg-gradient-to-r from-cyan-500 to-blue-500 md:mx-0 mx-auto rounded-full shadow-[0_0_10px_rgba(6,182,212,0.8)]"></div>
+              </div>
+
+              <p className="hero-animate text-lg md:text-xl text-gray-400 leading-relaxed max-w-lg">
+                Crafting cutting-edge web applications across{" "}
+                <span className="text-cyan-300">MERN</span>,{" "}
+                <span className="text-blue-300">.NET Core</span>,{" "}
+                <span className="text-red-300">Angular</span>, and{" "}
+                <span className="text-green-300">Spring Boot</span> ecosystems.
+              </p>
+
+              <div ref={techRef} className="hero-animate">
+                <p className="text-xs font-mono text-gray-500 mb-3 uppercase tracking-[0.2em]">
+                  Primary Stack
                 </p>
                 <div className="flex flex-wrap justify-start gap-3">
                   {techStack.map((tech, idx) => {
                     const Icon = tech.icon;
                     return (
-                      <motion.div
+                      <div
                         key={idx}
-                        className={`group tech-badge bg-gradient-to-br ${tech.bg} border-white/20 hover:border-white/60 hover:shadow-2xl transition-all duration-300`}
-                        initial={{ scale: 0, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        transition={{ duration: 0.5, delay: 0.6 + idx * 0.1 }}
-                        whileHover={{ scale: 1.05, y: -5 }}
+                        className={`tech-item group px-4 py-2 rounded-xl font-medium text-sm backdrop-blur-sm border border-white/10 bg-gradient-to-br ${tech.bg} hover:border-white/30 hover:scale-105 transition-all duration-300 cursor-pointer`}
                       >
                         <Icon
-                          className={`inline mr-2 ${tech.color} group-hover:animate-spin`}
-                          size={16}
+                          className={`inline mr-2 ${tech.color}`}
+                          size={14}
                         />
-                        {tech.label}
-                      </motion.div>
+                        <span className="text-gray-300 group-hover:text-white transition-colors">
+                          {tech.label}
+                        </span>
+                      </div>
                     );
                   })}
                 </div>
               </div>
 
-              {/* CTA Buttons */}
-              <div className="flex flex-wrap gap-4 pt-4">
-                <motion.a
+              <div className="hero-animate flex flex-wrap gap-4 pt-4">
+                <MagneticButton
                   href="#contact"
-                  className="group relative px-8 py-4 bg-gradient-to-r from-cyan-600 to-blue-600 rounded-lg font-bold text-white overflow-hidden shadow-2xl shadow-cyan-500/50 hover:shadow-cyan-400/80 transition-all duration-300"
-                  initial={{ y: 50, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ duration: 0.6, delay: 1 }}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                  className="group relative px-8 py-4 bg-gradient-to-r from-cyan-600 to-blue-600 rounded-xl font-bold text-white overflow-hidden shadow-[0_0_30px_rgba(6,182,212,0.3)] hover:shadow-[0_0_50px_rgba(6,182,212,0.5)] transition-all duration-500"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
                   <span className="relative flex items-center gap-2">
-                    <Mail size={20} />
+                    <Mail size={18} />
                     Get In Touch
                   </span>
-                </motion.a>
-                <motion.a
+                </MagneticButton>
+                <MagneticButton
                   href="#projects"
-                  className="px-8 py-4 bg-slate-800/50 hover:bg-slate-700/50 border border-white/30 hover:border-cyan-400/60 rounded-lg font-bold text-white transition-all duration-300 hover:shadow-2xl hover:shadow-cyan-500/30 group"
-                  initial={{ y: 50, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ duration: 0.6, delay: 1.2 }}
-                  whileHover={{ scale: 1.05, y: -5 }}
-                  whileTap={{ scale: 0.95 }}
+                  className="px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/20 hover:border-cyan-400/50 rounded-xl font-bold text-white transition-all duration-500 hover:shadow-[0_0_30px_rgba(6,182,212,0.2)] group"
                 >
                   <span className="flex items-center gap-2">
-                    <Code2 size={20} />
+                    <Code2
+                      size={18}
+                      className="group-hover:rotate-12 transition-transform"
+                    />
                     View Projects
                   </span>
-                </motion.a>
+                </MagneticButton>
               </div>
-            </motion.div>
+            </div>
           </div>
 
-          {/* Stats section */}
-          <motion.div
-            className="grid grid-cols-3 gap-4 md:gap-8 my-16 py-12 border-y border-white/10"
-            initial={{ y: 50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 1.4 }}
+          {/* Stats */}
+          <div
+            ref={statsRef}
+            className="grid grid-cols-3 gap-4 md:gap-8 my-16 py-12 border-y border-white/5"
           >
             {stats.map((stat, idx) => (
-              <motion.div
+              <div
                 key={idx}
-                className="text-center group cursor-pointer"
-                whileHover={{ scale: 1.05 }}
+                className="stat-card text-center group cursor-pointer"
               >
-                <div className="relative">
-                  <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-cyan-500/30 to-blue-500/30 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  <div className="relative p-6 rounded-lg bg-gradient-to-br from-slate-800/60 to-slate-900/60 border border-white/10 group-hover:border-cyan-400/60 transition-all duration-300 hover:shadow-2xl hover:shadow-cyan-500/20">
-                    <div className="text-4xl mb-3 animate-bounce">
-                      {stat.icon}
-                    </div>
-                    <p className="text-4xl md:text-5xl font-black bg-gradient-to-r from-cyan-400 to-blue-400 text-transparent bg-clip-text mb-2">
-                      {stat.value}
-                    </p>
-                    <p className="text-gray-400 text-sm md:text-base font-semibold">
-                      {stat.label}
-                    </p>
-                    <div className="mt-4 h-1 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  </div>
+                <div className="relative p-6 rounded-2xl bg-white/[0.02] border border-white/5 group-hover:border-cyan-500/30 transition-all duration-500 group-hover:bg-white/[0.05] hover:shadow-[0_0_40px_rgba(6,182,212,0.1)]">
+                  <div className="text-3xl mb-3">{stat.icon}</div>
+                  <p className="text-4xl md:text-5xl font-black bg-gradient-to-r from-cyan-400 to-blue-400 text-transparent bg-clip-text mb-2">
+                    {stat.value}
+                  </p>
+                  <p className="text-gray-500 text-sm font-medium">
+                    {stat.label}
+                  </p>
                 </div>
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
 
-          {/* Contact info and social links */}
-          <motion.div
-            className="text-center space-y-8"
-            initial={{ y: 50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 1.6 }}
-          >
-            <div className="flex flex-wrap justify-center gap-6 md:gap-8 text-sm">
+          {/* Contact + Social */}
+          <div className="text-center space-y-8">
+            <div className="flex flex-wrap justify-center gap-6 text-sm">
               <a
                 href="mailto:venukasirimanne1121@gmail.com"
-                className="flex items-center gap-2 text-gray-400 hover:text-cyan-400 transition-all duration-300 group px-4 py-2 rounded-lg hover:bg-cyan-500/10 border border-transparent hover:border-cyan-500/30"
+                className="flex items-center gap-2 text-gray-500 hover:text-cyan-400 transition-all duration-300 px-4 py-2 rounded-lg hover:bg-cyan-500/5 border border-transparent hover:border-cyan-500/20"
               >
-                <Mail size={18} className="group-hover:animate-bounce" />
+                <Mail size={16} />
                 <span className="hidden sm:inline">
                   venukasirimanne1121@gmail.com
                 </span>
@@ -352,57 +364,48 @@ export default function Hero() {
               </a>
               <a
                 href="tel:+94771292336"
-                className="flex items-center gap-2 text-gray-400 hover:text-blue-400 transition-all duration-300 group px-4 py-2 rounded-lg hover:bg-blue-500/10 border border-transparent hover:border-blue-500/30"
+                className="flex items-center gap-2 text-gray-500 hover:text-blue-400 transition-all duration-300 px-4 py-2 rounded-lg hover:bg-blue-500/5 border border-transparent hover:border-blue-500/20"
               >
-                <Phone size={18} className="group-hover:animate-bounce" />
+                <Phone size={16} />
                 <span>+94 77 129 2336</span>
               </a>
-              <div className="flex items-center gap-2 text-gray-400 group px-4 py-2 rounded-lg bg-purple-500/10 border border-purple-500/30">
-                <MapPin size={18} className="text-purple-400" />
+              <div className="flex items-center gap-2 text-gray-500 px-4 py-2 rounded-lg bg-purple-500/5 border border-purple-500/20">
+                <MapPin size={16} className="text-purple-400" />
                 <span>Panagoda, Sri Lanka</span>
               </div>
             </div>
 
-            {/* Social links */}
-            <div className="flex justify-center gap-6">
-              <motion.a
+            <div className="flex justify-center gap-4">
+              <MagneticButton
                 href="https://github.com/Siri200211"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group p-4 rounded-full bg-gradient-to-br from-slate-800 to-slate-900 border border-white/20 hover:border-cyan-400/60 transition-all duration-300 transform hover:scale-110 hover:shadow-2xl hover:shadow-blue-500/50"
-                whileHover={{ rotate: 5 }}
-                whileTap={{ scale: 0.95 }}
+                className="p-4 rounded-full bg-white/[0.03] border border-white/10 hover:border-cyan-400/50 transition-all duration-500 hover:shadow-[0_0_25px_rgba(6,182,212,0.2)] group"
               >
                 <Github
-                  size={24}
-                  className="text-gray-400 group-hover:text-cyan-400 transition-colors"
+                  size={22}
+                  className="text-gray-500 group-hover:text-cyan-400 transition-colors"
                 />
-              </motion.a>
-              <motion.a
+              </MagneticButton>
+              <MagneticButton
                 href="https://www.linkedin.com/in/venuka-sirimanne21-"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group p-4 rounded-full bg-gradient-to-br from-slate-800 to-slate-900 border border-white/20 hover:border-blue-400/60 transition-all duration-300 transform hover:scale-110 hover:shadow-2xl hover:shadow-blue-500/50"
-                whileHover={{ rotate: -5 }}
-                whileTap={{ scale: 0.95 }}
+                className="p-4 rounded-full bg-white/[0.03] border border-white/10 hover:border-blue-400/50 transition-all duration-500 hover:shadow-[0_0_25px_rgba(96,165,250,0.2)] group"
               >
                 <Linkedin
-                  size={24}
-                  className="text-gray-400 group-hover:text-blue-400 transition-colors"
+                  size={22}
+                  className="text-gray-500 group-hover:text-blue-400 transition-colors"
                 />
-              </motion.a>
+              </MagneticButton>
             </div>
-          </motion.div>
+          </div>
         </div>
 
         {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <div className="flex flex-col items-center gap-2">
-            <span className="text-xs text-gray-500 uppercase tracking-widest">
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+          <div className="flex flex-col items-center gap-2 animate-bounce">
+            <span className="text-[10px] text-gray-600 uppercase tracking-[0.3em] font-mono">
               Scroll
             </span>
-            <div className="w-6 h-10 border-2 border-gray-600 rounded-full flex justify-center relative">
-              <div className="w-1 h-3 bg-gradient-to-b from-cyan-400 to-transparent rounded-full mt-2 animate-wave"></div>
+            <div className="w-5 h-8 border border-gray-700 rounded-full flex justify-center">
+              <div className="w-0.5 h-2 bg-gradient-to-b from-cyan-400 to-transparent rounded-full mt-1.5 animate-wave"></div>
             </div>
           </div>
         </div>
