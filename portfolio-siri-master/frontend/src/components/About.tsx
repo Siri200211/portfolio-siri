@@ -1,9 +1,12 @@
-import { motion } from 'framer-motion';
-import { Github, Linkedin, Mail, MapPin, Phone } from 'lucide-react';
+import { motion } from "framer-motion";
+import { Github, Linkedin, Mail, MapPin, Phone } from "lucide-react";
 
 export default function About() {
   return (
-    <section id="about" className="py-20 bg-gradient-to-b from-black via-slate-900 to-black relative overflow-hidden">
+    <section
+      id="about"
+      className="py-20 bg-gradient-to-b from-black via-slate-900 to-black relative overflow-hidden"
+    >
       {/* Background effects */}
       <div className="absolute inset-0">
         <div className="absolute top-0 left-0 w-96 h-96 bg-cyan-500 rounded-full mix-blend-screen filter blur-3xl opacity-10 animate-float"></div>
@@ -49,7 +52,10 @@ export default function About() {
               viewport={{ once: true }}
             >
               <div className="relative w-80 h-80">
-                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 p-2 animate-spin" style={{ animationDuration: '10s' }}>
+                <div
+                  className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 p-2 animate-spin"
+                  style={{ animationDuration: "10s" }}
+                >
                   <div className="w-full h-full rounded-full bg-slate-800 flex items-center justify-center overflow-hidden">
                     <div className="text-8xl font-bold text-white">VS</div>
                     {/* Replace with actual image: <img src="/profile.jpg" alt="Venuka Sirimanne" className="w-full h-full object-cover" /> */}
@@ -70,12 +76,20 @@ export default function About() {
               transition={{ duration: 0.8, delay: 0.4 }}
               viewport={{ once: true }}
             >
-              <h3 className="text-3xl font-bold text-white mb-4">Venuka Sirimanne</h3>
+              <h3 className="text-3xl font-bold text-white mb-4">
+                Venuka Sirimanne
+              </h3>
               <p className="text-lg text-gray-300 leading-relaxed mb-6">
-                I'm a passionate Full Stack Developer with expertise in modern web technologies.
-                I love creating innovative solutions that solve real-world problems and deliver
-                exceptional user experiences. With a strong foundation in both frontend and backend
-                development, I bring ideas to life through clean, efficient code.
+                Software Engineering undergraduate with hands-on experience in
+                both MERN stack and enterprise technologies including Angular,
+                .NET, and MS SQL. Skilled in building scalable, secure web
+                applications, RESTful APIs, and data-driven dashboards using
+                modern frontend frameworks and clean architecture principles.
+                Proficient across JavaScript, TypeScript, and C#, with strong
+                experience in full-stack development, database design, and
+                cloud-based tools including AWS and Azure. Demonstrates strong
+                problem-solving ability through real-world and academic projects
+                with a focus on backend engineering.
               </p>
 
               <div className="space-y-4">

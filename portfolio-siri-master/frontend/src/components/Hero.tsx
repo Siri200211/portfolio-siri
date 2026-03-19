@@ -46,8 +46,8 @@ export default function Hero() {
   ];
 
   const stats = [
-    { label: "Projects Built", value: "11", icon: "🚀" },
-    { label: "GitHub Repos", value: "14+", icon: "💻" },
+    { label: "Projects Built", value: "14", icon: "🚀" },
+    { label: "GitHub Repos", value: "20+", icon: "💻" },
     { label: "Languages", value: "6+", icon: "⚡" },
   ];
 
@@ -61,11 +61,13 @@ export default function Hero() {
     { name: "Express.js", category: "Backend" },
     { name: "MongoDB", category: "Database" },
     { name: "MySQL", category: "Database" },
+    { name: "MS SQL", category: "Database" },
     { name: "PHP", category: "Backend" },
     { name: "Angular", category: "Frontend" },
     { name: "HTML/CSS", category: "Frontend" },
     { name: "Tailwind CSS", category: "Frontend" },
     { name: "Git", category: "Tools" },
+    { name: "Azure", category: "Tools" },
     { name: "REST APIs", category: "Backend" },
   ];
 

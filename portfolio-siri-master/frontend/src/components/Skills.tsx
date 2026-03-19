@@ -199,6 +199,13 @@ export default function Skills() {
       icon: "🔐",
       glow: "red",
     },
+    {
+      name: "Azure",
+      category: "tools",
+      color: "from-sky-500 to-blue-600",
+      icon: "☁️",
+      glow: "blue",
+    },
 
     // Mobile & IoT
     {
@@ -405,7 +412,7 @@ export default function Skills() {
                           "--tw-gradient-to": skill.color.split(" ")[3],
                           boxShadow: `0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)`,
                           transformStyle: "preserve-3d",
-                        } as any
+                        } as React.CSSProperties
                       }
                     >
                       {/* Shine effect */}
@@ -510,7 +517,7 @@ export default function Skills() {
                   value: "22",
                   label: "Technologies",
                 },
-                { icon: <Target size={32} />, value: "11", label: "Projects" },
+                { icon: <Target size={32} />, value: "14", label: "Projects" },
                 { icon: <Zap size={32} />, value: "7", label: "Categories" },
               ].map((stat, idx) => (
                 <motion.div
