@@ -1,8 +1,11 @@
-import { Mail, Phone, MapPin, Github, Linkedin, Send } from 'lucide-react';
+import { Mail, Phone, MapPin, Github, Linkedin, Send } from "lucide-react";
 
 export default function Contact() {
   return (
-    <section id="contact" className="py-20 bg-gradient-to-b from-slate-900 via-slate-950 to-slate-900 relative overflow-hidden text-white">
+    <section
+      id="contact"
+      className="py-20 bg-gradient-to-b from-slate-900 via-slate-950 to-slate-900 relative overflow-hidden text-white"
+    >
       {/* Background animated orbs */}
       <div className="absolute inset-0">
         <div className="absolute top-0 right-1/3 w-96 h-96 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-float"></div>
@@ -26,8 +29,12 @@ export default function Contact() {
               <div className="p-3 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg w-fit mb-3 group-hover:shadow-lg group-hover:shadow-blue-500/50 transition-all">
                 <Mail size={24} className="text-white" />
               </div>
-              <h3 className="font-semibold text-lg mb-1 text-cyan-300">Email</h3>
-              <p className="text-gray-300 text-sm break-all">venukasirimanne1121@gmail.com</p>
+              <h3 className="font-semibold text-lg mb-1 text-cyan-300">
+                Email
+              </h3>
+              <p className="text-gray-300 text-sm break-all">
+                venukasirimanne1121@gmail.com
+              </p>
             </a>
 
             <a
@@ -37,7 +44,9 @@ export default function Contact() {
               <div className="p-3 bg-gradient-to-br from-green-500 to-emerald-500 rounded-lg w-fit mb-3 group-hover:shadow-lg group-hover:shadow-green-500/50 transition-all">
                 <Phone size={24} className="text-white" />
               </div>
-              <h3 className="font-semibold text-lg mb-1 text-cyan-300">Phone</h3>
+              <h3 className="font-semibold text-lg mb-1 text-cyan-300">
+                Mobile
+              </h3>
               <p className="text-gray-300">+94 77 129 2336</p>
             </a>
 
@@ -45,7 +54,9 @@ export default function Contact() {
               <div className="p-3 bg-gradient-to-br from-orange-500 to-red-500 rounded-lg w-fit mb-3">
                 <MapPin size={24} className="text-white" />
               </div>
-              <h3 className="font-semibold text-lg mb-1 text-cyan-300">Location</h3>
+              <h3 className="font-semibold text-lg mb-1 text-cyan-300">
+                Location
+              </h3>
               <p className="text-gray-300">Panagoda, Sri Lanka</p>
             </div>
 
@@ -58,17 +69,26 @@ export default function Contact() {
               <div className="p-3 bg-gradient-to-br from-slate-600 to-slate-700 rounded-lg w-fit mb-3 group-hover:shadow-lg group-hover:shadow-slate-500/50 transition-all">
                 <Github size={24} className="text-white" />
               </div>
-              <h3 className="font-semibold text-lg mb-1 text-cyan-300">GitHub</h3>
+              <h3 className="font-semibold text-lg mb-1 text-cyan-300">
+                GitHub
+              </h3>
               <p className="text-gray-300">github.com/Siri200211</p>
             </a>
           </div>
 
           <div className="glass-effect rounded-2xl p-8 border-white/10 hover:border-white/20 transition-all duration-500">
-            <h3 className="text-2xl font-bold mb-6 text-center text-cyan-300">Send a Message</h3>
+            <h3 className="text-2xl font-bold mb-6 text-center text-cyan-300">
+              Send a Message
+            </h3>
             <form className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium mb-2 text-gray-300">Name</label>
+                  <label
+                    htmlFor="name"
+                    className="block text-sm font-medium mb-2 text-gray-300"
+                  >
+                    Name
+                  </label>
                   <input
                     type="text"
                     id="name"
@@ -77,7 +97,12 @@ export default function Contact() {
                   />
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium mb-2 text-gray-300">Email</label>
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-medium mb-2 text-gray-300"
+                  >
+                    Email
+                  </label>
                   <input
                     type="email"
                     id="email"
@@ -88,7 +113,12 @@ export default function Contact() {
               </div>
 
               <div>
-                <label htmlFor="subject" className="block text-sm font-medium mb-2 text-gray-300">Subject</label>
+                <label
+                  htmlFor="subject"
+                  className="block text-sm font-medium mb-2 text-gray-300"
+                >
+                  Subject
+                </label>
                 <input
                   type="text"
                   id="subject"
@@ -98,7 +128,12 @@ export default function Contact() {
               </div>
 
               <div>
-                <label htmlFor="message" className="block text-sm font-medium mb-2 text-gray-300">Message</label>
+                <label
+                  htmlFor="message"
+                  className="block text-sm font-medium mb-2 text-gray-300"
+                >
+                  Message
+                </label>
                 <textarea
                   id="message"
                   rows={6}
@@ -118,7 +153,9 @@ export default function Contact() {
           </div>
 
           <div className="mt-12 text-center">
-            <p className="text-gray-400 mb-6">Connect with me on social media</p>
+            <p className="text-gray-400 mb-6">
+              Connect with me on social media
+            </p>
             <div className="flex justify-center gap-6">
               <a
                 href="https://github.com/Siri200211"
