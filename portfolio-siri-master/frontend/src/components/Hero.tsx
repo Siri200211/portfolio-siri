@@ -1,137 +1,201 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useMemo } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import {
-  Github,
-  Linkedin,
-  Mail,
-  MapPin,
-  Phone,
-  Code2,
-  Database,
-  Zap,
-  Shield,
-} from "lucide-react";
+import { Canvas, useFrame } from "@react-three/fiber";
+import * as THREE from "three";
+import { Github, Linkedin, Mail, ArrowDown } from "lucide-react";
 import MagneticButton from "./MagneticButton";
-import TextReveal from "./TextReveal";
 
 gsap.registerPlugin(ScrollTrigger);
 
+// 3D Holographic ring around avatar
+function HolographicRings() {
+  const group = useRef<THREE.Group>(null);
+  const ring1Ref = useRef<THREE.Mesh>(null);
+  const ring2Ref = useRef<THREE.Mesh>(null);
+  const ring3Ref = useRef<THREE.Mesh>(null);
+
+  useFrame((state) => {
+    const t = state.clock.elapsedTime;
+    if (ring1Ref.current) {
+      ring1Ref.current.rotation.x = Math.sin(t * 0.5) * 0.3 + 0.5;
+      ring1Ref.current.rotation.z = t * 0.2;
+    }
+    if (ring2Ref.current) {
+      ring2Ref.current.rotation.x = Math.cos(t * 0.3) * 0.4 + 0.8;
+      ring2Ref.current.rotation.z = -t * 0.15;
+    }
+    if (ring3Ref.current) {
+      ring3Ref.current.rotation.y = t * 0.1;
+      ring3Ref.current.rotation.x = Math.sin(t * 0.4) * 0.2 + 1.2;
+    }
+    if (group.current) {
+      group.current.rotation.y = t * 0.05;
+    }
+  });
+
+  return (
+    <group ref={group}>
+      <mesh ref={ring1Ref}>
+        <torusGeometry args={[2, 0.015, 16, 100]} />
+        <meshBasicMaterial
+          color="#06b6d4"
+          transparent
+          opacity={0.6}
+          blending={THREE.AdditiveBlending}
+        />
+      </mesh>
+      <mesh ref={ring2Ref}>
+        <torusGeometry args={[2.3, 0.01, 16, 100]} />
+        <meshBasicMaterial
+          color="#8b5cf6"
+          transparent
+          opacity={0.4}
+          blending={THREE.AdditiveBlending}
+        />
+      </mesh>
+      <mesh ref={ring3Ref}>
+        <torusGeometry args={[2.6, 0.008, 16, 100]} />
+        <meshBasicMaterial
+          color="#3b82f6"
+          transparent
+          opacity={0.3}
+          blending={THREE.AdditiveBlending}
+        />
+      </mesh>
+    </group>
+  );
+}
+
+// Floating data particles around profile
+function DataParticles() {
+  const pointsRef = useRef<THREE.Points>(null);
+  const count = 200;
+
+  const [positions, colors] = useMemo(() => {
+    const pos = new Float32Array(count * 3);
+    const col = new Float32Array(count * 3);
+    const cyan = new THREE.Color("#06b6d4");
+    const violet = new THREE.Color("#8b5cf6");
+
+    for (let i = 0; i < count; i++) {
+      const theta = Math.random() * Math.PI * 2;
+      const phi = Math.random() * Math.PI;
+      const radius = 2.5 + Math.random() * 1.5;
+      pos[i * 3] = Math.sin(phi) * Math.cos(theta) * radius;
+      pos[i * 3 + 1] = Math.sin(phi) * Math.sin(theta) * radius;
+      pos[i * 3 + 2] = Math.cos(phi) * radius;
+
+      const mixFactor = Math.random();
+      const color = cyan.clone().lerp(violet, mixFactor);
+      col[i * 3] = color.r;
+      col[i * 3 + 1] = color.g;
+      col[i * 3 + 2] = color.b;
+    }
+    return [pos, col];
+  }, []);
+
+  useFrame((state) => {
+    if (!pointsRef.current) return;
+    pointsRef.current.rotation.y = state.clock.elapsedTime * 0.05;
+    pointsRef.current.rotation.x =
+      Math.sin(state.clock.elapsedTime * 0.02) * 0.1;
+  });
+
+  return (
+    <points ref={pointsRef}>
+      <bufferGeometry>
+        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
+        <bufferAttribute attach="attributes-color" args={[colors, 3]} />
+      </bufferGeometry>
+      <pointsMaterial
+        size={0.02}
+        vertexColors
+        transparent
+        opacity={0.7}
+        sizeAttenuation
+        blending={THREE.AdditiveBlending}
+        depthWrite={false}
+      />
+    </points>
+  );
+}
+
+function HeroScene() {
+  return (
+    <>
+      <ambientLight intensity={0.1} />
+      <HolographicRings />
+      <DataParticles />
+    </>
+  );
+}
+
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
+  const headingRef = useRef<HTMLDivElement>(null);
+  const subtitleRef = useRef<HTMLDivElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
   const avatarRef = useRef<HTMLDivElement>(null);
-  const contentRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
-  const techRef = useRef<HTMLDivElement>(null);
-  const orbRef = useRef<HTMLDivElement>(null);
-
-  const techStack = [
-    {
-      icon: Code2,
-      label: "React",
-      color: "text-cyan-400",
-      bg: "from-cyan-500/20 to-cyan-500/5",
-    },
-    {
-      icon: Database,
-      label: "Angular",
-      color: "text-red-400",
-      bg: "from-red-500/20 to-red-500/5",
-    },
-    {
-      icon: Zap,
-      label: "Node.js",
-      color: "text-yellow-400",
-      bg: "from-yellow-500/20 to-yellow-500/5",
-    },
-    {
-      icon: Shield,
-      label: ".NET Core",
-      color: "text-indigo-300",
-      bg: "from-indigo-500/20 to-violet-500/5",
-    },
-    {
-      icon: Zap,
-      label: "Spring Boot",
-      color: "text-emerald-300",
-      bg: "from-emerald-500/20 to-lime-500/5",
-    },
-  ];
+  const orbsRef = useRef<HTMLDivElement>(null);
 
   const stats = [
-    { label: "Projects Built", value: "14", icon: "🚀" },
-    { label: "GitHub Repos", value: "20+", icon: "💻" },
-    { label: "Languages", value: "6+", icon: "⚡" },
+    { value: "14+", label: "Projects" },
+    { value: "6+", label: "Languages" },
+    { value: "20+", label: "Repositories" },
   ];
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo(
+      const tl = gsap.timeline({ defaults: { ease: "expo.out" } });
+
+      tl.fromTo(
         avatarRef.current,
-        { opacity: 0, scale: 0.5, rotateY: -90 },
-        {
-          opacity: 1,
-          scale: 1,
-          rotateY: 0,
-          duration: 1.5,
-          ease: "power4.out",
-          delay: 0.5,
-        },
-      );
-
-      if (contentRef.current) {
-        const elements = contentRef.current.querySelectorAll(".hero-animate");
-        gsap.fromTo(
-          elements,
-          { opacity: 0, y: 60, rotateX: -15 },
-          {
-            opacity: 1,
-            y: 0,
-            rotateX: 0,
-            stagger: 0.15,
-            duration: 1,
-            ease: "power3.out",
-            delay: 0.8,
-          },
+        { opacity: 0, scale: 0.3, filter: "blur(20px)" },
+        { opacity: 1, scale: 1, filter: "blur(0px)", duration: 1.4 },
+        0.2,
+      )
+        .fromTo(
+          headingRef.current?.querySelectorAll(".word") || [],
+          { opacity: 0, y: 120, rotateX: -90 },
+          { opacity: 1, y: 0, rotateX: 0, stagger: 0.08, duration: 1.2 },
+          0.5,
+        )
+        .fromTo(
+          subtitleRef.current,
+          { opacity: 0, y: 40 },
+          { opacity: 1, y: 0, duration: 1 },
+          1.0,
+        )
+        .fromTo(
+          ctaRef.current?.children || [],
+          { opacity: 0, y: 30, scale: 0.9 },
+          { opacity: 1, y: 0, scale: 1, stagger: 0.1, duration: 0.8 },
+          1.2,
+        )
+        .fromTo(
+          statsRef.current?.children || [],
+          { opacity: 0, y: 40 },
+          { opacity: 1, y: 0, stagger: 0.12, duration: 0.8 },
+          1.5,
         );
-      }
 
-      if (techRef.current) {
-        const badges = techRef.current.querySelectorAll(".tech-item");
-        gsap.fromTo(
-          badges,
-          { opacity: 0, scale: 0, rotation: -180 },
-          {
-            opacity: 1,
-            scale: 1,
-            rotation: 0,
-            stagger: 0.1,
-            duration: 0.8,
-            ease: "back.out(1.7)",
-            delay: 1.5,
-          },
-        );
-      }
-
-      if (statsRef.current) {
-        const statCards = statsRef.current.querySelectorAll(".stat-card");
-        gsap.fromTo(
-          statCards,
-          { opacity: 0, y: 100, scale: 0.8 },
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            stagger: 0.2,
-            duration: 0.8,
-            ease: "power3.out",
-            delay: 2,
-          },
-        );
-      }
-
+      // Parallax on scroll
       gsap.to(avatarRef.current, {
-        y: -50,
+        y: -80,
+        opacity: 0.3,
+        scale: 0.9,
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: 1.5,
+        },
+      });
+
+      gsap.to(headingRef.current, {
+        y: -40,
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top top",
@@ -140,12 +204,19 @@ export default function Hero() {
         },
       });
 
-      if (orbRef.current) {
-        gsap.to(orbRef.current, {
-          rotation: 360,
-          duration: 30,
-          repeat: -1,
-          ease: "none",
+      // Floating orbs animation
+      if (orbsRef.current) {
+        const orbs = orbsRef.current.querySelectorAll(".orb");
+        orbs.forEach((orb, i) => {
+          gsap.to(orb, {
+            y: `${20 + i * 10}`,
+            x: `${10 - i * 8}`,
+            rotation: 360,
+            duration: 15 + i * 5,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut",
+          });
         });
       }
     }, sectionRef);
@@ -156,259 +227,204 @@ export default function Hero() {
   return (
     <section
       ref={sectionRef}
-      className="min-h-screen flex items-center justify-center relative overflow-hidden bg-black"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      style={{ perspective: "1200px" }}
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-blue-950/50 to-slate-950"></div>
+      {/* Background layers */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-gradient-to-b from-[rgb(2,2,8)] via-[rgb(5,5,15)] to-[rgb(8,8,18)]" />
 
-      <div className="absolute inset-0 opacity-30">
-        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-cyan-500 rounded-full mix-blend-screen filter blur-[120px] animate-float"></div>
-        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-blue-600 rounded-full mix-blend-screen filter blur-[120px] animate-float-delay"></div>
-        <div className="absolute top-1/2 left-0 w-[400px] h-[400px] bg-purple-500 rounded-full mix-blend-screen filter blur-[100px] animate-pulse"></div>
+        {/* Aurora orbs */}
+        <div ref={orbsRef} className="absolute inset-0 overflow-hidden">
+          <div className="orb absolute top-[20%] left-[15%] w-[500px] h-[500px] rounded-full bg-cyan-500/[0.03] blur-[120px]" />
+          <div className="orb absolute top-[60%] right-[10%] w-[400px] h-[400px] rounded-full bg-violet-500/[0.03] blur-[120px]" />
+          <div className="orb absolute bottom-[10%] left-[40%] w-[600px] h-[600px] rounded-full bg-blue-500/[0.02] blur-[150px]" />
+        </div>
+
+        {/* Dot grid */}
+        <div className="absolute inset-0 dot-grid opacity-20" />
       </div>
 
-      {/* Perspective grid floor */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div
-          className="absolute bottom-0 left-0 right-0 h-[60vh]"
-          style={{
-            background:
-              "linear-gradient(180deg, transparent 0%, rgba(6, 182, 212, 0.03) 100%)",
-            transform: "perspective(500px) rotateX(60deg)",
-            transformOrigin: "bottom",
-            backgroundImage: `linear-gradient(rgba(6, 182, 212, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(6, 182, 212, 0.08) 1px, transparent 1px)`,
-            backgroundSize: "60px 60px",
-          }}
-        />
-      </div>
+      {/* Main content */}
+      <div className="relative z-10 container mx-auto px-6 py-32">
+        <div className="max-w-6xl mx-auto flex flex-col items-center text-center">
+          {/* 3D Avatar with holographic rings */}
+          <div ref={avatarRef} className="relative mb-14 group">
+            <div className="relative w-44 h-44 md:w-56 md:h-56">
+              {/* 3D Canvas for rings */}
+              <div className="absolute -inset-16 pointer-events-none">
+                <Canvas
+                  camera={{ position: [0, 0, 6], fov: 45 }}
+                  dpr={[1, 2]}
+                  gl={{ antialias: true, alpha: true }}
+                >
+                  <HeroScene />
+                </Canvas>
+              </div>
 
-      <div className="absolute inset-0 noise-overlay opacity-[0.03]"></div>
+              {/* Morphing glow */}
+              <div className="absolute -inset-8 bg-gradient-to-r from-cyan-500/20 via-blue-500/15 to-violet-500/20 rounded-full blur-3xl animate-morph opacity-50 group-hover:opacity-80 transition-opacity duration-1000" />
 
-      <div className="container mx-auto px-6 py-20 relative z-10">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-16 items-center mb-16">
-            {/* Avatar */}
-            <div
-              ref={avatarRef}
-              className="flex justify-center md:justify-end relative"
-              style={{ perspective: "1000px" }}
-            >
-              <div
-                ref={orbRef}
-                className="absolute w-[320px] h-[320px] md:w-[380px] md:h-[380px] rounded-full border border-cyan-500/10"
+              {/* Hexagonal frame lines */}
+              <svg
+                className="absolute -inset-6 w-[calc(100%+48px)] h-[calc(100%+48px)] animate-spin-slower opacity-30 group-hover:opacity-60 transition-opacity duration-700"
+                viewBox="0 0 200 200"
               >
-                <div className="absolute top-0 left-1/2 w-3 h-3 bg-cyan-400 rounded-full -translate-x-1/2 -translate-y-1/2 shadow-[0_0_15px_rgba(6,182,212,0.8)]" />
-                <div className="absolute bottom-0 left-1/2 w-2 h-2 bg-purple-400 rounded-full -translate-x-1/2 translate-y-1/2 shadow-[0_0_10px_rgba(168,85,247,0.8)]" />
-                <div className="absolute top-1/2 left-0 w-2 h-2 bg-blue-400 rounded-full -translate-x-1/2 -translate-y-1/2 shadow-[0_0_10px_rgba(96,165,250,0.8)]" />
+                <polygon
+                  points="100,10 178,55 178,145 100,190 22,145 22,55"
+                  fill="none"
+                  stroke="url(#hex-gradient)"
+                  strokeWidth="0.5"
+                />
+                <defs>
+                  <linearGradient
+                    id="hex-gradient"
+                    x1="0%"
+                    y1="0%"
+                    x2="100%"
+                    y2="100%"
+                  >
+                    <stop offset="0%" stopColor="#06b6d4" stopOpacity="0.8" />
+                    <stop offset="50%" stopColor="#3b82f6" stopOpacity="0.4" />
+                    <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.8" />
+                  </linearGradient>
+                </defs>
+              </svg>
+
+              {/* Avatar image with holographic overlay */}
+              <div className="relative w-full h-full rounded-full overflow-hidden border-2 border-white/[0.08] group-hover:border-white/20 transition-all duration-700">
+                <img
+                  src="/images/projects/ME.png"
+                  alt="Venuka Sirimanne"
+                  className="w-full h-full object-cover scale-110 group-hover:scale-[1.15] transition-transform duration-700"
+                />
+                {/* Holographic overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-cyan-900/20 via-transparent to-violet-900/10 mix-blend-overlay" />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/10 to-black/40" />
+
+                {/* Scan line effect */}
+                <div
+                  className="absolute inset-0 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity"
+                  style={{
+                    backgroundImage:
+                      "repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(6,182,212,0.1) 3px, rgba(6,182,212,0.1) 4px)",
+                  }}
+                />
               </div>
 
-              <div className="relative w-64 h-64 md:w-72 md:h-72 group">
-                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 p-[2px] animate-spin-slow">
-                  <div className="w-full h-full rounded-full bg-black flex items-center justify-center overflow-hidden">
-                    <img
-                      src="/images/projects/ME.png"
-                      alt="Venuka Sirimanne"
-                      className="w-full h-full rounded-full object-cover saturate-110 scale-125 group-hover:scale-[1.3] transition-transform duration-700"
-                    />
-                  </div>
-                </div>
-                <div className="absolute inset-0 rounded-full bg-cyan-500/20 blur-2xl -z-10 group-hover:bg-cyan-500/30 transition-all duration-500"></div>
-                <div className="absolute inset-0 rounded-full bg-blue-500/10 blur-3xl -z-10 animate-pulse"></div>
-
-                <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 px-4 py-1.5 bg-black/80 border border-cyan-500/30 rounded-full backdrop-blur-sm">
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
-                    <span className="text-xs font-mono text-cyan-300">
-                      Available
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="absolute -left-8 top-12 w-14 h-14 bg-gradient-to-br from-cyan-500/10 to-blue-500/10 border border-cyan-400/30 rounded-xl flex items-center justify-center backdrop-blur-sm animate-floating-3d">
-                <span className="text-2xl">⚛️</span>
-              </div>
-              <div className="absolute -right-4 top-20 w-12 h-12 bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-purple-400/30 rounded-lg flex items-center justify-center backdrop-blur-sm animate-floating-3d animation-delay-1000">
-                <span className="text-xl">🔧</span>
-              </div>
-              <div className="absolute -left-4 bottom-20 w-12 h-12 bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-400/30 rounded-full flex items-center justify-center backdrop-blur-sm animate-floating-3d animation-delay-600">
-                <span className="text-xl">⚡</span>
-              </div>
-            </div>
-
-            {/* Content */}
-            <div
-              ref={contentRef}
-              className="text-center md:text-left space-y-8"
-              style={{ perspective: "1000px" }}
-            >
-              <div className="hero-animate">
-                <span className="text-sm font-mono text-cyan-400/80 tracking-[0.2em] uppercase mb-4 inline-block border border-cyan-500/20 px-3 py-1 rounded-full bg-cyan-500/5">
-                  &lt;Full Stack Developer /&gt;
+              {/* Status badge */}
+              <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-2 px-4 py-1.5 bg-black/90 border border-cyan-500/20 rounded-full backdrop-blur-xl shadow-[0_0_30px_rgba(6,182,212,0.1)]">
+                <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse-glow" />
+                <span className="text-[10px] font-mono text-emerald-400/80 uppercase tracking-wider">
+                  Available
                 </span>
               </div>
 
-              <div className="hero-animate">
-                <TextReveal
-                  className="text-6xl md:text-7xl lg:text-8xl font-black leading-[0.9] tracking-tight text-white"
-                  delay={1}
-                >
-                  Venuka
-                </TextReveal>
-                <TextReveal
-                  className="text-6xl md:text-7xl lg:text-8xl font-black bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 text-transparent bg-clip-text leading-[0.9] tracking-tight"
-                  delay={1.2}
-                >
-                  Sirimanne
-                </TextReveal>
-              </div>
-
-              <div className="hero-animate">
-                <div className="h-[2px] w-24 bg-gradient-to-r from-cyan-500 to-blue-500 md:mx-0 mx-auto rounded-full shadow-[0_0_10px_rgba(6,182,212,0.8)]"></div>
-              </div>
-
-              <p className="hero-animate text-lg md:text-xl text-gray-400 leading-relaxed max-w-lg">
-                Crafting cutting-edge web applications across{" "}
-                <span className="text-cyan-300">MERN</span>,{" "}
-                <span className="text-blue-300">.NET Core</span>,{" "}
-                <span className="text-red-300">Angular</span>, and{" "}
-                <span className="text-green-300">Spring Boot</span> ecosystems.
-              </p>
-
-              <div ref={techRef} className="hero-animate">
-                <p className="text-xs font-mono text-gray-500 mb-3 uppercase tracking-[0.2em]">
-                  Primary Stack
-                </p>
-                <div className="flex flex-wrap justify-start gap-3">
-                  {techStack.map((tech, idx) => {
-                    const Icon = tech.icon;
-                    return (
-                      <div
-                        key={idx}
-                        className={`tech-item group px-4 py-2 rounded-xl font-medium text-sm backdrop-blur-sm border border-white/10 bg-gradient-to-br ${tech.bg} hover:border-white/30 hover:scale-105 transition-all duration-300 cursor-pointer`}
-                      >
-                        <Icon
-                          className={`inline mr-2 ${tech.color}`}
-                          size={14}
-                        />
-                        <span className="text-gray-300 group-hover:text-white transition-colors">
-                          {tech.label}
-                        </span>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              <div className="hero-animate flex flex-wrap gap-4 pt-4">
-                <MagneticButton
-                  href="#contact"
-                  className="group relative px-8 py-4 bg-gradient-to-r from-cyan-600 to-blue-600 rounded-xl font-bold text-white overflow-hidden shadow-[0_0_30px_rgba(6,182,212,0.3)] hover:shadow-[0_0_50px_rgba(6,182,212,0.5)] transition-all duration-500"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out"></div>
-                  <span className="relative flex items-center gap-2">
-                    <Mail size={18} />
-                    Get In Touch
-                  </span>
-                </MagneticButton>
-                <MagneticButton
-                  href="#projects"
-                  className="px-8 py-4 bg-white/5 hover:bg-white/10 border border-white/20 hover:border-cyan-400/50 rounded-xl font-bold text-white transition-all duration-500 hover:shadow-[0_0_30px_rgba(6,182,212,0.2)] group"
-                >
-                  <span className="flex items-center gap-2">
-                    <Code2
-                      size={18}
-                      className="group-hover:rotate-12 transition-transform"
-                    />
-                    View Projects
-                  </span>
-                </MagneticButton>
-              </div>
+              {/* Corner decorations */}
+              <div className="absolute -top-3 -left-3 w-4 h-4 border-l border-t border-cyan-500/30 rounded-tl-sm" />
+              <div className="absolute -top-3 -right-3 w-4 h-4 border-r border-t border-cyan-500/30 rounded-tr-sm" />
+              <div className="absolute -bottom-3 -left-3 w-4 h-4 border-l border-b border-violet-500/30 rounded-bl-sm" />
+              <div className="absolute -bottom-3 -right-3 w-4 h-4 border-r border-b border-violet-500/30 rounded-br-sm" />
             </div>
           </div>
 
-          {/* Stats */}
+          {/* Heading */}
           <div
-            ref={statsRef}
-            className="grid grid-cols-3 gap-4 md:gap-8 my-16 py-12 border-y border-white/5"
+            ref={headingRef}
+            className="mb-6"
+            style={{ perspective: "800px" }}
           >
-            {stats.map((stat, idx) => (
-              <div
-                key={idx}
-                className="stat-card text-center group cursor-pointer"
-              >
-                <div className="relative p-6 rounded-2xl bg-white/[0.02] border border-white/5 group-hover:border-cyan-500/30 transition-all duration-500 group-hover:bg-white/[0.05] hover:shadow-[0_0_40px_rgba(6,182,212,0.1)]">
-                  <div className="text-3xl mb-3">{stat.icon}</div>
-                  <p className="text-4xl md:text-5xl font-black bg-gradient-to-r from-cyan-400 to-blue-400 text-transparent bg-clip-text mb-2">
-                    {stat.value}
-                  </p>
-                  <p className="text-gray-500 text-sm font-medium">
-                    {stat.label}
-                  </p>
-                </div>
-              </div>
-            ))}
+            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black tracking-tight leading-[0.85]">
+              <span className="word inline-block text-white">Venuka</span>{" "}
+              <span className="word inline-block text-gradient">Sirimanne</span>
+            </h1>
           </div>
 
-          {/* Contact + Social */}
-          <div className="text-center space-y-8">
-            <div className="flex flex-wrap justify-center gap-6 text-sm">
-              <a
-                href="mailto:venukasirimanne1121@gmail.com"
-                className="flex items-center gap-2 text-gray-500 hover:text-cyan-400 transition-all duration-300 px-4 py-2 rounded-lg hover:bg-cyan-500/5 border border-transparent hover:border-cyan-500/20"
-              >
-                <Mail size={16} />
-                <span className="hidden sm:inline">
-                  venukasirimanne1121@gmail.com
-                </span>
-                <span className="sm:hidden">Email</span>
-              </a>
-              <a
-                href="tel:+94771292336"
-                className="flex items-center gap-2 text-gray-500 hover:text-blue-400 transition-all duration-300 px-4 py-2 rounded-lg hover:bg-blue-500/5 border border-transparent hover:border-blue-500/20"
-              >
-                <Phone size={16} />
-                <span>+94 77 129 2336</span>
-              </a>
-              <div className="flex items-center gap-2 text-gray-500 px-4 py-2 rounded-lg bg-purple-500/5 border border-purple-500/20">
-                <MapPin size={16} className="text-purple-400" />
-                <span>Panagoda, Sri Lanka</span>
-              </div>
-            </div>
+          {/* Subtitle */}
+          <div ref={subtitleRef} className="mb-10 space-y-3">
+            <p className="text-lg md:text-xl text-white/40 font-light max-w-2xl">
+              Full Stack Engineer crafting production-grade applications across
+              <span className="text-cyan-400/80"> React</span>,
+              <span className="text-blue-400/80"> .NET</span>,
+              <span className="text-violet-400/80"> Spring Boot</span> &
+              <span className="text-emerald-400/80"> Node.js</span>
+            </p>
+            <p className="text-sm font-mono text-white/20 tracking-wider">
+              &lt; Based in Sri Lanka • Open to Opportunities /&gt;
+            </p>
+          </div>
 
-            <div className="flex justify-center gap-4">
+          {/* CTA buttons */}
+          <div
+            ref={ctaRef}
+            className="flex flex-wrap items-center justify-center gap-4 mb-16"
+          >
+            <MagneticButton
+              href="#contact"
+              className="group relative px-8 py-4 rounded-2xl font-semibold text-sm text-white overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-600 to-blue-600 rounded-2xl" />
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-violet-600 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute inset-[1px] bg-gradient-to-r from-cyan-600 to-blue-600 rounded-2xl group-hover:from-blue-600 group-hover:to-violet-600 transition-all duration-500" />
+              <span className="relative flex items-center gap-2">
+                <Mail size={16} />
+                Get In Touch
+              </span>
+            </MagneticButton>
+
+            <MagneticButton
+              href="#projects"
+              className="px-8 py-4 rounded-2xl font-semibold text-sm text-white/80 glass-hover hover:text-white"
+            >
+              View Projects
+            </MagneticButton>
+
+            <div className="flex items-center gap-2 ml-2">
               <MagneticButton
                 href="https://github.com/Siri200211"
-                className="p-4 rounded-full bg-white/[0.03] border border-white/10 hover:border-cyan-400/50 transition-all duration-500 hover:shadow-[0_0_25px_rgba(6,182,212,0.2)] group"
+                className="p-3 rounded-xl glass-hover group"
               >
                 <Github
-                  size={22}
-                  className="text-gray-500 group-hover:text-cyan-400 transition-colors"
+                  size={18}
+                  className="text-white/40 group-hover:text-white transition-colors duration-300"
                 />
               </MagneticButton>
               <MagneticButton
                 href="https://www.linkedin.com/in/venuka-sirimanne21-"
-                className="p-4 rounded-full bg-white/[0.03] border border-white/10 hover:border-blue-400/50 transition-all duration-500 hover:shadow-[0_0_25px_rgba(96,165,250,0.2)] group"
+                className="p-3 rounded-xl glass-hover group"
               >
                 <Linkedin
-                  size={22}
-                  className="text-gray-500 group-hover:text-blue-400 transition-colors"
+                  size={18}
+                  className="text-white/40 group-hover:text-white transition-colors duration-300"
                 />
               </MagneticButton>
             </div>
           </div>
-        </div>
 
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
-          <div className="flex flex-col items-center gap-2 animate-bounce">
-            <span className="text-[10px] text-gray-600 uppercase tracking-[0.3em] font-mono">
-              Scroll
-            </span>
-            <div className="w-5 h-8 border border-gray-700 rounded-full flex justify-center">
-              <div className="w-0.5 h-2 bg-gradient-to-b from-cyan-400 to-transparent rounded-full mt-1.5 animate-wave"></div>
-            </div>
+          {/* Stats */}
+          <div ref={statsRef} className="flex items-center gap-8 md:gap-12">
+            {stats.map((stat, idx) => (
+              <div key={idx} className="text-center group relative">
+                {/* Glow behind stat */}
+                <div className="absolute -inset-4 bg-cyan-500/[0.03] rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <p className="relative text-3xl md:text-4xl font-black text-gradient mb-1">
+                  {stat.value}
+                </p>
+                <p className="relative text-xs font-mono text-white/30 uppercase tracking-wider group-hover:text-white/50 transition-colors">
+                  {stat.label}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
+      </div>
+
+      {/* Scroll indicator */}
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+        <span className="text-[10px] font-mono text-white/20 uppercase tracking-[0.3em]">
+          Scroll
+        </span>
+        <ArrowDown size={14} className="text-white/20 animate-bounce" />
       </div>
     </section>
   );

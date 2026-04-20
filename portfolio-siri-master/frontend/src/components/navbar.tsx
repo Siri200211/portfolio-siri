@@ -1,127 +1,150 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import MagneticButton from "./MagneticButton";
+import { gsap } from "gsap";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
+  const navRef = useRef<HTMLElement>(null);
+  const indicatorRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-
-      // Track active section
-      const sections = ["skills", "projects", "experience", "about", "contact"];
-      for (const id of sections) {
-        const el = document.getElementById(id);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= 200 && rect.bottom >= 200) {
-            setActiveSection(id);
-            break;
-          }
-        }
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const navLinks = [
+  const links = [
     { href: "#skills", label: "Skills" },
-    { href: "#projects", label: "Projects" },
+    { href: "#projects", label: "Work" },
     { href: "#experience", label: "Experience" },
     { href: "#about", label: "About" },
     { href: "#contact", label: "Contact" },
   ];
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 100);
+
+      const sections = ["skills", "projects", "experience", "about", "contact"];
+      for (const id of sections.reverse()) {
+        const el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top <= 200) {
+          setActiveSection(id);
+          return;
+        }
+      }
+      setActiveSection("");
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    if (navRef.current) {
+      gsap.fromTo(
+        navRef.current,
+        { y: -100, opacity: 0 },
+        { y: 0, opacity: 1, duration: 1, ease: "expo.out", delay: 2.5 },
+      );
+    }
+  }, []);
+
   return (
     <nav
+      ref={navRef}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${
-        isScrolled
-          ? "bg-black/80 backdrop-blur-xl border-b border-white/5 shadow-[0_0_30px_rgba(0,0,0,0.5)]"
-          : "bg-transparent"
+        isScrolled ? "py-3" : "py-5"
       }`}
+      style={{ opacity: 0 }}
     >
       <div className="container mx-auto px-6">
-        <div className="flex items-center justify-between h-20">
+        <div
+          className={`relative flex items-center justify-between max-w-4xl mx-auto px-6 py-3 rounded-2xl transition-all duration-700 ${
+            isScrolled
+              ? "glass shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
+              : "bg-transparent"
+          }`}
+        >
           {/* Logo */}
-          <a href="#" className="flex items-center gap-3 group">
-            <div className="relative w-10 h-10 flex items-center justify-center">
-              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 p-[1px] group-hover:shadow-[0_0_20px_rgba(6,182,212,0.4)] transition-shadow duration-500">
-                <div className="w-full h-full rounded-full bg-black flex items-center justify-center">
-                  <span className="text-xs font-black bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 text-transparent bg-clip-text">
-                    VS
-                  </span>
-                </div>
-              </div>
+          <a href="#" className="relative group flex items-center gap-2">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-500 to-violet-500 flex items-center justify-center group-hover:shadow-[0_0_20px_rgba(6,182,212,0.4)] transition-shadow duration-500">
+              <span className="text-[10px] font-black text-white">VS</span>
             </div>
-            <span className="hidden sm:inline text-sm font-bold text-white/80 group-hover:text-white transition-colors">
-              Venuka
-            </span>
           </a>
 
-          {/* Desktop Nav */}
-          <div className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => (
+          {/* Desktop links */}
+          <div className="hidden md:flex items-center gap-1 relative">
+            {links.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
-                className={`relative px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg ${
+                className={`relative px-4 py-2 text-[13px] font-medium rounded-lg transition-all duration-300 ${
                   activeSection === link.href.slice(1)
-                    ? "text-cyan-400"
-                    : "text-gray-400 hover:text-white"
+                    ? "text-white"
+                    : "text-white/40 hover:text-white/70"
                 }`}
               >
-                {link.label}
                 {activeSection === link.href.slice(1) && (
-                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 bg-cyan-400 rounded-full shadow-[0_0_8px_rgba(6,182,212,0.8)]"></div>
+                  <motion.div
+                    ref={indicatorRef}
+                    layoutId="activeNav"
+                    className="absolute inset-0 bg-white/[0.06] rounded-lg border border-white/[0.08]"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
                 )}
+                <span className="relative z-10">{link.label}</span>
               </a>
             ))}
-            <MagneticButton
-              href="#contact"
-              className="ml-4 px-5 py-2 text-sm font-semibold text-white bg-white/[0.05] border border-white/10 hover:border-cyan-500/40 rounded-lg transition-all duration-500 hover:shadow-[0_0_20px_rgba(6,182,212,0.15)]"
-            >
-              Hire Me
-            </MagneticButton>
           </div>
 
-          {/* Mobile menu button */}
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden text-white p-2 hover:text-cyan-400 transition-colors"
-          >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          {/* CTA + mobile toggle */}
+          <div className="flex items-center gap-3">
+            <a
+              href="#contact"
+              className="hidden md:inline-flex px-4 py-2 text-[12px] font-semibold text-white bg-gradient-to-r from-cyan-600 to-blue-600 rounded-lg hover:shadow-[0_0_20px_rgba(6,182,212,0.3)] transition-shadow duration-500"
+            >
+              Hire Me
+            </a>
+            <button
+              onClick={() => setIsMobileOpen(!isMobileOpen)}
+              className="md:hidden p-2 text-white/60 hover:text-white transition-colors"
+            >
+              {isMobileOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+          </div>
         </div>
       </div>
 
       {/* Mobile menu */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden bg-black/95 backdrop-blur-xl border-t border-white/5 animate-slide-down">
-          <div className="container mx-auto px-6 py-6 space-y-2">
-            {navLinks.map((link) => (
+      <AnimatePresence>
+        {isMobileOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.3 }}
+            className="md:hidden absolute top-full left-0 right-0 mt-2 mx-6"
+          >
+            <div className="glass rounded-2xl p-4 space-y-1 shadow-[0_16px_48px_rgba(0,0,0,0.5)]">
+              {links.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setIsMobileOpen(false)}
+                  className="block px-4 py-3 text-sm text-white/60 hover:text-white hover:bg-white/[0.04] rounded-xl transition-all duration-300"
+                >
+                  {link.label}
+                </a>
+              ))}
               <a
-                key={link.href}
-                href={link.href}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="block text-gray-400 hover:text-cyan-400 transition-colors font-medium py-3 px-4 rounded-lg hover:bg-white/[0.03]"
+                href="#contact"
+                onClick={() => setIsMobileOpen(false)}
+                className="block px-4 py-3 mt-2 text-sm text-center font-semibold text-white bg-gradient-to-r from-cyan-600 to-blue-600 rounded-xl"
               >
-                {link.label}
+                Hire Me
               </a>
-            ))}
-            <a
-              href="#contact"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="block w-full px-6 py-3 bg-white/[0.05] border border-white/10 rounded-lg font-semibold transition-all duration-300 text-center text-white hover:border-cyan-500/30 mt-4"
-            >
-              Hire Me
-            </a>
-          </div>
-        </div>
-      )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 }

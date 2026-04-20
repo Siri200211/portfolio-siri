@@ -1,47 +1,61 @@
+import { ArrowUp, Heart } from "lucide-react";
+
 export default function Footer() {
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
-    <footer className="bg-black border-t border-white/5 py-12 relative">
-      <div className="absolute inset-0 noise-overlay opacity-[0.02]"></div>
-      <div className="container mx-auto px-6 relative z-10">
-        <div className="text-center space-y-4">
-          {/* Logo */}
-          <div className="flex justify-center mb-6">
-            <div className="relative w-10 h-10 flex items-center justify-center">
-              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 p-[1px]">
-                <div className="w-full h-full rounded-full bg-black flex items-center justify-center">
-                  <span className="text-xs font-black bg-gradient-to-r from-cyan-400 to-purple-400 text-transparent bg-clip-text">
-                    VS
-                  </span>
-                </div>
+    <footer className="relative py-16 border-t border-white/[0.03]">
+      {/* Subtle top gradient */}
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-500/10 to-transparent" />
+
+      <div className="container mx-auto px-6">
+        <div className="max-w-5xl mx-auto">
+          {/* Main footer content */}
+          <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-10">
+            {/* Logo + credit */}
+            <div className="flex items-center gap-4">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-violet-500 flex items-center justify-center shadow-[0_0_20px_rgba(6,182,212,0.2)]">
+                <span className="text-[10px] font-black text-white">VS</span>
+              </div>
+              <div>
+                <p className="text-sm text-white/60 font-semibold">
+                  Venuka Sirimanne
+                </p>
+                <p className="text-[10px] text-white/20 font-mono">
+                  Full Stack Software Engineer
+                </p>
               </div>
             </div>
+
+            {/* Back to top */}
+            <button
+              onClick={scrollToTop}
+              className="group flex items-center gap-3 px-5 py-2.5 rounded-xl glass-hover hover:border-cyan-500/20 transition-all duration-500"
+            >
+              <span className="text-[11px] font-mono text-white/30 group-hover:text-white/50 transition-colors uppercase tracking-wider">
+                Back to top
+              </span>
+              <ArrowUp
+                size={14}
+                className="text-white/30 group-hover:text-cyan-400 group-hover:-translate-y-0.5 transition-all duration-300"
+              />
+            </button>
           </div>
 
-          <p className="text-gray-600 text-sm">
-            Designed, Built & Deployed by{" "}
-            <span className="text-gray-400">Venuka Sirimanne</span>
-          </p>
-          <p className="text-gray-700 text-xs font-mono">
-            &copy; {new Date().getFullYear()} &mdash; All rights reserved
-          </p>
+          {/* Divider */}
+          <div className="h-px bg-white/[0.04] mb-8" />
 
-          {/* Tech stack used */}
-          <div className="flex flex-wrap justify-center gap-2 pt-4">
-            {[
-              "React",
-              "TypeScript",
-              "GSAP",
-              "Three.js",
-              "Tailwind",
-              "Framer Motion",
-            ].map((tech) => (
-              <span
-                key={tech}
-                className="px-2 py-0.5 text-[10px] text-gray-600 border border-white/5 rounded-full font-mono"
-              >
-                {tech}
-              </span>
-            ))}
+          {/* Bottom row */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p className="text-[11px] text-white/20 font-mono flex items-center gap-1.5">
+              Built with <Heart size={10} className="text-rose-400/50" /> using
+              React, Three.js & Framer Motion
+            </p>
+            <p className="text-[11px] text-white/15 font-mono">
+              © {new Date().getFullYear()} All rights reserved
+            </p>
           </div>
         </div>
       </div>

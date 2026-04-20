@@ -20,23 +20,29 @@ export default function TextReveal({
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
+    if (!containerRef.current) return;
 
-    const chars = container.querySelectorAll(".char");
+    const chars = containerRef.current.querySelectorAll(".char");
+
+    const animConfig = {
+      opacity: 1,
+      y: 0,
+      rotateX: 0,
+      stagger: 0.02,
+      duration: 0.6,
+      ease: "expo.out",
+    };
 
     if (scrub) {
       gsap.fromTo(
         chars,
-        { opacity: 0.1, y: 20 },
+        { opacity: 0, y: 30, rotateX: -60 },
         {
-          opacity: 1,
-          y: 0,
-          stagger: 0.03,
+          ...animConfig,
           scrollTrigger: {
-            trigger: container,
-            start: "top 80%",
-            end: "top 20%",
+            trigger: containerRef.current,
+            start: "top 85%",
+            end: "top 50%",
             scrub: 1,
           },
         },
@@ -44,52 +50,25 @@ export default function TextReveal({
     } else {
       gsap.fromTo(
         chars,
-        { opacity: 0, y: 50, rotateX: -90 },
-        {
-          opacity: 1,
-          y: 0,
-          rotateX: 0,
-          stagger: 0.03,
-          duration: 0.8,
-          ease: "back.out(1.7)",
-          delay,
-          scrollTrigger: {
-            trigger: container,
-            start: "top 85%",
-            toggleActions: "play none none none",
-          },
-        },
+        { opacity: 0, y: 30, rotateX: -60 },
+        { ...animConfig, delay },
       );
     }
-
-    return () => {
-      ScrollTrigger.getAll().forEach((trigger) => {
-        if (trigger.vars.trigger === container) {
-          trigger.kill();
-        }
-      });
-    };
   }, [delay, scrub]);
-
-  const words = children.split(" ");
 
   return (
     <div
       ref={containerRef}
-      className={`${className} overflow-hidden`}
-      style={{ perspective: "1000px" }}
+      className={className}
+      style={{ perspective: "600px" }}
     >
-      {words.map((word, wordIdx) => (
-        <span key={wordIdx} className="inline-block mr-[0.25em]">
-          {word.split("").map((char, charIdx) => (
-            <span
-              key={charIdx}
-              className="char inline-block"
-              style={{ transformOrigin: "bottom center" }}
-            >
-              {char}
-            </span>
-          ))}
+      {children.split("").map((char, i) => (
+        <span
+          key={i}
+          className="char inline-block"
+          style={{ opacity: 0, transformOrigin: "bottom" }}
+        >
+          {char === " " ? "\u00A0" : char}
         </span>
       ))}
     </div>

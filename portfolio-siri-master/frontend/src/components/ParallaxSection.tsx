@@ -6,47 +6,38 @@ gsap.registerPlugin(ScrollTrigger);
 
 interface ParallaxSectionProps {
   children: React.ReactNode;
-  className?: string;
   speed?: number;
-  direction?: "up" | "down";
+  className?: string;
 }
 
 export default function ParallaxSection({
   children,
-  className = "",
   speed = 0.5,
-  direction = "up",
+  className = "",
 }: ParallaxSectionProps) {
-  const sectionRef = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
+    if (!ref.current) return;
 
-    const yValue = direction === "up" ? -100 * speed : 100 * speed;
-
-    gsap.to(section, {
-      y: yValue,
-      ease: "none",
-      scrollTrigger: {
-        trigger: section,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: true,
-      },
+    const ctx = gsap.context(() => {
+      gsap.to(ref.current, {
+        y: () => speed * 100,
+        ease: "none",
+        scrollTrigger: {
+          trigger: ref.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1,
+        },
+      });
     });
 
-    return () => {
-      ScrollTrigger.getAll().forEach((trigger) => {
-        if (trigger.vars.trigger === section) {
-          trigger.kill();
-        }
-      });
-    };
-  }, [speed, direction]);
+    return () => ctx.revert();
+  }, [speed]);
 
   return (
-    <div ref={sectionRef} className={className}>
+    <div ref={ref} className={className}>
       {children}
     </div>
   );

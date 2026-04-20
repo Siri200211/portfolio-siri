@@ -16,18 +16,18 @@ export default function MagneticButton({
   href,
   onClick,
 }: MagneticButtonProps) {
-  const buttonRef = useRef<HTMLAnchorElement & HTMLButtonElement>(null);
+  const ref = useRef<HTMLAnchorElement & HTMLButtonElement>(null);
 
   useEffect(() => {
-    const button = buttonRef.current;
-    if (!button) return;
+    const el = ref.current;
+    if (!el) return;
 
     const handleMouseMove = (e: MouseEvent) => {
-      const rect = button.getBoundingClientRect();
+      const rect = el.getBoundingClientRect();
       const x = e.clientX - rect.left - rect.width / 2;
       const y = e.clientY - rect.top - rect.height / 2;
 
-      gsap.to(button, {
+      gsap.to(el, {
         x: x * strength,
         y: y * strength,
         duration: 0.4,
@@ -36,26 +36,32 @@ export default function MagneticButton({
     };
 
     const handleMouseLeave = () => {
-      gsap.to(button, {
+      gsap.to(el, {
         x: 0,
         y: 0,
         duration: 0.7,
-        ease: "elastic.out(1, 0.3)",
+        ease: "elastic.out(1, 0.4)",
       });
     };
 
-    button.addEventListener("mousemove", handleMouseMove);
-    button.addEventListener("mouseleave", handleMouseLeave);
+    el.addEventListener("mousemove", handleMouseMove);
+    el.addEventListener("mouseleave", handleMouseLeave);
 
     return () => {
-      button.removeEventListener("mousemove", handleMouseMove);
-      button.removeEventListener("mouseleave", handleMouseLeave);
+      el.removeEventListener("mousemove", handleMouseMove);
+      el.removeEventListener("mouseleave", handleMouseLeave);
     };
   }, [strength]);
 
   if (href) {
     return (
-      <a href={href} ref={buttonRef} className={`inline-block ${className}`}>
+      <a
+        href={href}
+        ref={ref}
+        className={`inline-block ${className}`}
+        target={href.startsWith("http") ? "_blank" : undefined}
+        rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
+      >
         {children}
       </a>
     );
@@ -64,8 +70,9 @@ export default function MagneticButton({
   return (
     <button
       onClick={onClick}
-      ref={buttonRef}
+      ref={ref}
       className={`inline-block ${className}`}
+      type="submit"
     >
       {children}
     </button>
