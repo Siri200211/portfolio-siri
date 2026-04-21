@@ -141,8 +141,8 @@ export default function Hero() {
   const orbsRef = useRef<HTMLDivElement>(null);
 
   const stats = [
-    { value: "14+", label: "Projects" },
-    { value: "6+", label: "Languages" },
+    { value: "6+", label: "Projects" },
+    { value: "6", label: "Languages" },
     { value: "20+", label: "Repositories" },
   ];
 
@@ -343,11 +343,12 @@ export default function Hero() {
           {/* Subtitle */}
           <div ref={subtitleRef} className="mb-10 space-y-3">
             <p className="text-lg md:text-xl text-white/40 font-light max-w-2xl">
-              Full Stack Engineer crafting production-grade applications across
+              Software Engineering undergraduate building scalable web apps
+              across
               <span className="text-cyan-400/80"> React</span>,
               <span className="text-blue-400/80"> .NET</span>,
-              <span className="text-violet-400/80"> Spring Boot</span> &
-              <span className="text-emerald-400/80"> Node.js</span>
+              <span className="text-violet-400/80"> Angular</span> &amp;
+              <span className="text-emerald-400/80"> Spring Boot</span>
             </p>
             <p className="text-sm font-mono text-white/20 tracking-wider">
               &lt; Based in Sri Lanka • Open to Opportunities /&gt;

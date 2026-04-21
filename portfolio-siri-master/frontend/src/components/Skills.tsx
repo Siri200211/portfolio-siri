@@ -10,146 +10,39 @@ interface Skill {
 }
 
 const skills: Skill[] = [
-  {
-    name: "React",
-    category: "Frontend",
-    color: "#61dafb",
-    icon: "⚛",
-    level: "expert",
-  },
-  {
-    name: "Angular",
-    category: "Frontend",
-    color: "#dd0031",
-    icon: "🅰",
-    level: "advanced",
-  },
-  {
-    name: "Next.js",
-    category: "Frontend",
-    color: "#ffffff",
-    icon: "▲",
-    level: "advanced",
-  },
-  {
-    name: "TypeScript",
-    category: "Languages",
-    color: "#3178c6",
-    icon: "TS",
-    level: "expert",
-  },
-  {
-    name: "JavaScript",
-    category: "Languages",
-    color: "#f7df1e",
-    icon: "JS",
-    level: "expert",
-  },
-  {
-    name: "Java",
-    category: "Languages",
-    color: "#ed8b00",
-    icon: "☕",
-    level: "advanced",
-  },
-  {
-    name: "C#",
-    category: "Languages",
-    color: "#9b4dca",
-    icon: "C#",
-    level: "advanced",
-  },
-  {
-    name: "Python",
-    category: "Languages",
-    color: "#3776ab",
-    icon: "🐍",
-    level: "proficient",
-  },
-  {
-    name: "Node.js",
-    category: "Backend",
-    color: "#339933",
-    icon: "⬢",
-    level: "expert",
-  },
-  {
-    name: "Express.js",
-    category: "Backend",
-    color: "#ffffff",
-    icon: "Ex",
-    level: "expert",
-  },
-  {
-    name: "Spring Boot",
-    category: "Backend",
-    color: "#6db33f",
-    icon: "🍃",
-    level: "advanced",
-  },
-  {
-    name: ".NET Core",
-    category: "Backend",
-    color: "#512bd4",
-    icon: ".N",
-    level: "advanced",
-  },
-  {
-    name: "MongoDB",
-    category: "Database",
-    color: "#47a248",
-    icon: "🍃",
-    level: "expert",
-  },
-  {
-    name: "MySQL",
-    category: "Database",
-    color: "#4479a1",
-    icon: "🐬",
-    level: "advanced",
-  },
-  {
-    name: "PostgreSQL",
-    category: "Database",
-    color: "#4169e1",
-    icon: "🐘",
-    level: "advanced",
-  },
-  {
-    name: "Git",
-    category: "Tools",
-    color: "#f05032",
-    icon: "⑂",
-    level: "expert",
-  },
-  {
-    name: "Docker",
-    category: "Tools",
-    color: "#2496ed",
-    icon: "🐳",
-    level: "proficient",
-  },
-  {
-    name: "AWS",
-    category: "Tools",
-    color: "#ff9900",
-    icon: "☁",
-    level: "proficient",
-  },
-  {
-    name: "Tailwind CSS",
-    category: "Frontend",
-    color: "#06b6d4",
-    icon: "🌊",
-    level: "expert",
-  },
-  {
-    name: "React Native",
-    category: "Mobile",
-    color: "#61dafb",
-    icon: "📱",
-    level: "advanced",
-  },
+  // Frontend
+  { name: "React", category: "Frontend", color: "#61dafb", icon: "⚛", level: "expert" },
+  { name: "Angular", category: "Frontend", color: "#dd0031", icon: "🅰", level: "advanced" },
+  { name: "Next.js", category: "Frontend", color: "#ffffff", icon: "▲", level: "advanced" },
+  { name: "Tailwind CSS", category: "Frontend", color: "#06b6d4", icon: "🌊", level: "expert" },
+  { name: "HTML", category: "Frontend", color: "#e34f26", icon: "H", level: "expert" },
+  { name: "CSS", category: "Frontend", color: "#1572b6", icon: "C", level: "expert" },
+  // Languages
+  { name: "JavaScript", category: "Languages", color: "#f7df1e", icon: "JS", level: "expert" },
+  { name: "TypeScript", category: "Languages", color: "#3178c6", icon: "TS", level: "expert" },
+  { name: "Java", category: "Languages", color: "#ed8b00", icon: "☕", level: "advanced" },
+  { name: "C#", category: "Languages", color: "#9b4dca", icon: "C#", level: "advanced" },
+  { name: "SQL", category: "Languages", color: "#f0931c", icon: "SQL", level: "advanced" },
+  { name: "PHP", category: "Languages", color: "#777bb4", icon: "PHP", level: "proficient" },
+  // Backend
+  { name: "Node.js", category: "Backend", color: "#339933", icon: "⬢", level: "expert" },
+  { name: "Express.js", category: "Backend", color: "#ffffff", icon: "Ex", level: "expert" },
+  { name: ".NET Core", category: "Backend", color: "#512bd4", icon: ".N", level: "advanced" },
+  { name: "Spring Boot", category: "Backend", color: "#6db33f", icon: "🍃", level: "advanced" },
+  // Database
+  { name: "MongoDB", category: "Database", color: "#47a248", icon: "🍃", level: "expert" },
+  { name: "MySQL", category: "Database", color: "#4479a1", icon: "🐬", level: "advanced" },
+  { name: "MS SQL", category: "Database", color: "#cc2927", icon: "SQL", level: "advanced" },
+  // Tools
+  { name: "Git", category: "Tools", color: "#f05032", icon: "⑂", level: "expert" },
+  { name: "GitHub", category: "Tools", color: "#ffffff", icon: "⑃", level: "expert" },
+  { name: "Postman", category: "Tools", color: "#ff6c37", icon: "PM", level: "expert" },
+  { name: "Azure", category: "Tools", color: "#0089d6", icon: "Az", level: "proficient" },
+  { name: "AWS", category: "Tools", color: "#ff9900", icon: "☁", level: "proficient" },
+  { name: "CI/CD", category: "Tools", color: "#10b981", icon: "⟳", level: "proficient" },
+  { name: "JIRA", category: "Tools", color: "#0052cc", icon: "J", level: "proficient" },
+  // Mobile
+  { name: "Flutter", category: "Mobile", color: "#54c5f8", icon: "F", level: "advanced" },
 ];
 
 const categories = [
@@ -537,7 +430,7 @@ export default function Skills() {
                 </div>
                 <div className="w-[1px] h-10 bg-white/[0.06]" />
                 <div className="text-center">
-                  <p className="text-3xl font-black text-gradient">14+</p>
+                  <p className="text-3xl font-black text-gradient">6+</p>
                   <p className="text-[10px] font-mono text-white/25 uppercase tracking-wider mt-1">
                     Projects
                   </p>

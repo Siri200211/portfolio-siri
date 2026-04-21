@@ -8,16 +8,18 @@ gsap.registerPlugin(ScrollTrigger);
 const experiences = [
   {
     type: "work",
-    title: "Software Engineer Intern",
+    title: "Software Engineering Intern",
     company: "Sri Lanka Telecom (SLT)",
     period: "Oct 2024 - Apr 2025",
     description:
-      "Built production-grade MERN stack applications for PEOtv division. Developed sales analytics dashboard and fault management system used by Marketing Department.",
+      "Developed and deployed the SLT PEOTV Sales Reports & Dashboard — a production MERN application used daily by the Marketing Department. Collaborated with the team for seamless integration and deployment, enhancing data accessibility and decision-making through interactive dashboards, CSV exports, role-based authentication, and automated email alerts.",
     highlights: [
       "Production Deployment",
       "MERN Stack",
-      "Analytics",
-      "Real-time Systems",
+      "Role-based Auth",
+      "CSV Exports",
+      "Email Alerts",
+      "Data Analytics",
     ],
   },
   {
@@ -26,31 +28,38 @@ const experiences = [
     company: "Self-employed",
     period: "2023 - Present",
     description:
-      "Delivering full-stack applications for clients across different industries. AI-powered systems, management dashboards, and custom web solutions.",
+      "Delivering full-stack web applications for clients across industries. Projects include inventory management systems with WhatsApp integration, hotel management dashboards, and custom RESTful API solutions.",
     highlights: [
-      "AI Integration",
       "Client Delivery",
       "Full Stack",
       "WhatsApp API",
+      "RESTful APIs",
     ],
   },
 ];
 
 const education = [
   {
-    title: "BSc (Hons) Computer Science",
+    title: "BSc (Hons) in Information Technology",
     institution: "SLIIT - Sri Lanka Institute of Information Technology",
-    period: "2022 - 2026",
+    period: "June 2022 - Present",
     description:
-      "Specializing in Software Engineering with focus on web technologies, cloud computing, and AI/ML.",
+      "Specializing in Software Engineering with focus on web technologies, scalable systems, cloud-based tools, and database design.",
+  },
+  {
+    title: "GCE Advanced Level — Commerce Stream",
+    institution: "Sri Sumangala College, Panadura",
+    period: "2019 - 2022",
+    description:
+      "Economics (A), Business Studies (B), Accounting (B), General English (C). Achieved remarkable proficiency at grade 13 level.",
   },
 ];
 
 const achievements = [
-  "14+ production projects delivered",
+  "Production-deployed MERN apps at Sri Lanka Telecom",
   "MERN, .NET Core, Angular, Spring Boot expertise",
-  "AI/ML integration experience",
-  "Real-time system development",
+  "CI/CD pipelines, Azure & JIRA workflows",
+  "Champions — SCC The Hundred Cricket Tournament 2023/24",
 ];
 
 export default function Experience() {

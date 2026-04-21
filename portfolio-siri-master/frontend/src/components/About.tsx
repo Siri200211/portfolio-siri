@@ -98,20 +98,23 @@ export default function About() {
                   <span className="text-white font-medium">
                     Full Stack Software Engineer
                   </span>{" "}
-                  based in Sri Lanka, currently pursuing my BSc in Computer
-                  Science at SLIIT. I specialize in building production-grade
-                  web applications that solve real business problems.
+                  based in Sri Lanka, currently pursuing my BSc in Information
+                  Technology at SLIIT. I specialize in building scalable,
+                  secure web applications and RESTful APIs that solve real
+                  business problems.
                 </p>
                 <p className="text-white/40 leading-relaxed text-sm">
-                  My experience spans from enterprise-level applications at Sri
-                  Lanka Telecom to AI-powered systems with WhatsApp integration.
-                  I'm passionate about clean architecture, performance
-                  optimization, and creating seamless user experiences.
+                  My experience spans enterprise-level production deployments
+                  at Sri Lanka Telecom, where I built analytics dashboards and
+                  fault management systems used by the Marketing Department.
+                  I'm passionate about clean architecture, backend engineering,
+                  and data-driven interfaces.
                 </p>
                 <p className="text-white/40 leading-relaxed text-sm">
-                  I work across the entire stack — from React and Angular
-                  frontends to Node.js, Spring Boot, and .NET Core backends,
-                  with expertise in MongoDB, MySQL, and PostgreSQL databases.
+                  I work across the full stack — React, Angular, and Next.js
+                  frontends; Node.js, .NET Core, and Spring Boot backends;
+                  with MongoDB, MySQL, and MS SQL databases. Experienced with
+                  CI/CD pipelines, Azure, JIRA, and Agile workflows.
                 </p>
               </div>
             </div>
@@ -157,12 +160,12 @@ export default function About() {
                 </div>
                 <div className="flex items-center gap-4">
                   <div className="text-center">
-                    <p className="text-2xl font-black text-gradient">14+</p>
+                    <p className="text-2xl font-black text-gradient">5+</p>
                     <p className="text-[10px] text-white/25">Projects</p>
                   </div>
                   <div className="w-[1px] h-8 bg-white/[0.06]" />
                   <div className="text-center">
-                    <p className="text-2xl font-black text-gradient">6+</p>
+                    <p className="text-2xl font-black text-gradient">6</p>
                     <p className="text-[10px] text-white/25">Languages</p>
                   </div>
                   <div className="w-[1px] h-8 bg-white/[0.06]" />

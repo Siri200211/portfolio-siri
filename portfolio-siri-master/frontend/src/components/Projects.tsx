@@ -20,8 +20,8 @@ const projects = [
     title: "Hotel Stock Management",
     period: "Mar - May 2025",
     description:
-      "AI-powered MERN system with WhatsApp integration for automated inventory tracking, featuring Sinhala language support and real-time monitoring.",
-    tech: ["MongoDB", "React", "Node.js", "Express.js", "AI/ML"],
+      "MERN system with WhatsApp integration for automated inventory tracking, featuring Sinhala language support, real-time monitoring, and sustainable resource management. AI bot developed to automate stock workflows.",
+    tech: ["MongoDB", "React", "Node.js", "Express.js", "WhatsApp API"],
     images: [],
     color: "#8b5cf6",
     featured: true,
