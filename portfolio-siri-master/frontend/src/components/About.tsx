@@ -1,4 +1,4 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, ReactNode } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { MapPin, Calendar, Code2, Coffee } from "lucide-react";
@@ -7,7 +7,7 @@ import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 gsap.registerPlugin(ScrollTrigger);
 
 // 3D Tilt Card Component for About Section
-function TiltCard({ children, className = "" }: { children: React.ReactNode, className?: string }) {
+function TiltCard({ children, className = "" }: { children: ReactNode, className?: string }) {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
@@ -44,7 +44,7 @@ function TiltCard({ children, className = "" }: { children: React.ReactNode, cla
       }}
       className={`about-card glass-hover transition-all duration-500 hover:z-20 hover:scale-[1.02] ${className}`}
     >
-      <div 
+      <div
         className="w-full h-full"
         style={{ transform: "translateZ(20px)" }}
       >
@@ -60,33 +60,56 @@ export default function About() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      // Header scrubs in from below
       gsap.fromTo(
         ".about-header",
-        { opacity: 0, y: 60 },
+        { opacity: 0, y: 150, z: -400, rotateX: 25, scale: 0.8 },
         {
           opacity: 1,
           y: 0,
-          duration: 1,
-          ease: "expo.out",
-          scrollTrigger: { trigger: sectionRef.current, start: "top 80%" },
+          z: 0,
+          rotateX: 0,
+          scale: 1,
+          ease: "power2.out",
+          scrollTrigger: { 
+            trigger: sectionRef.current, 
+            start: "top 90%",
+            end: "top 50%",
+            scrub: 1,
+          },
         },
       );
 
       if (contentRef.current) {
         const cards = contentRef.current.querySelectorAll(".about-card");
-        gsap.fromTo(
-          cards,
-          { opacity: 0, y: 50, scale: 0.95 },
-          {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            stagger: 0.1,
-            duration: 0.8,
-            ease: "expo.out",
-            scrollTrigger: { trigger: contentRef.current, start: "top 80%" },
-          },
-        );
+        cards.forEach((card, index) => {
+          gsap.fromTo(
+            card,
+            { 
+              opacity: 0, 
+              x: index % 2 === 0 ? -500 : 500, 
+              y: 60,
+              z: -400, 
+              scale: 0.85, 
+              rotateY: index % 2 === 0 ? -20 : 20,
+            },
+            {
+              opacity: 1,
+              x: 0,
+              y: 0,
+              z: 0,
+              scale: 1,
+              rotateY: 0,
+              ease: "power2.out",
+              scrollTrigger: { 
+                trigger: card, 
+                start: "top 95%",
+                end: "top 55%",
+                scrub: 1.5,
+              },
+            },
+          );
+        });
       }
     }, sectionRef);
 
@@ -208,7 +231,7 @@ export default function About() {
                 </div>
                 <div className="flex items-center gap-4">
                   <div className="text-center">
-                    <p className="text-2xl font-black text-gradient">5+</p>
+                    <p className="text-2xl font-black text-gradient">14+</p>
                     <p className="text-[10px] text-white/25">Projects</p>
                   </div>
                   <div className="w-[1px] h-8 bg-white/[0.06]" />

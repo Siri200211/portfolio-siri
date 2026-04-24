@@ -141,7 +141,7 @@ export default function Hero() {
   const orbsRef = useRef<HTMLDivElement>(null);
 
   const stats = [
-    { value: "6+", label: "Projects" },
+    { value: "14+", label: "Projects" },
     { value: "6", label: "Languages" },
     { value: "20+", label: "Repositories" },
   ];

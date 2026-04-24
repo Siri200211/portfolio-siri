@@ -68,7 +68,13 @@ function Particles() {
   );
 }
 
-function FloatingGeometry({ position, color, geometry }: any) {
+interface FloatingGeometryProps {
+  position: [number, number, number];
+  color: string;
+  geometry: React.ReactNode;
+}
+
+function FloatingGeometry({ position, color, geometry }: FloatingGeometryProps) {
   const meshRef = useRef<THREE.Mesh>(null);
   
   useFrame((state) => {
@@ -96,7 +102,7 @@ function CameraRig() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  useFrame((state) => {
+  useFrame(() => {
     const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
     const scrollProgress = scrollY / maxScroll;
     

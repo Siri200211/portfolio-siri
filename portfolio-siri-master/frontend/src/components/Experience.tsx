@@ -1,11 +1,61 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, ReactNode } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Briefcase, GraduationCap, Award } from "lucide-react";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
+// 3D Tilt Card Component for Experience Section
+function TiltCard({ children, className = "" }: { children: ReactNode, className?: string }) {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const mouseXSpring = useSpring(x, { stiffness: 400, damping: 40 });
+  const mouseYSpring = useSpring(y, { stiffness: 400, damping: 40 });
+
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["5deg", "-5deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-5deg", "5deg"]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    x.set(mouseX / width - 0.5);
+    y.set(mouseY / height - 0.5);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <motion.div
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        rotateX,
+        rotateY,
+        transformStyle: "preserve-3d",
+        perspective: "1000px"
+      }}
+      className={`glass-hover transition-all duration-500 hover:z-20 hover:scale-[1.02] ${className}`}
+    >
+      <div 
+        className="w-full h-full"
+        style={{ transform: "translateZ(20px)" }}
+      >
+        {children}
+      </div>
+    </motion.div>
+  );
+}
+
 const experiences = [
+// ... (Data definitions remain exactly the same)
   {
     type: "work",
     title: "Software Engineering Intern",
@@ -69,20 +119,27 @@ export default function Experience() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Header
+      // Header - scrubs in from below
       gsap.fromTo(
         ".exp-header",
-        { opacity: 0, y: 60 },
+        { opacity: 0, y: 150, z: -400, rotateX: 25, scale: 0.8 },
         {
           opacity: 1,
           y: 0,
-          duration: 1,
-          ease: "expo.out",
-          scrollTrigger: { trigger: sectionRef.current, start: "top 80%" },
+          z: 0,
+          rotateX: 0,
+          scale: 1,
+          ease: "power2.out",
+          scrollTrigger: { 
+            trigger: sectionRef.current, 
+            start: "top 90%",
+            end: "top 50%",
+            scrub: 1,
+          },
         },
       );
 
-      // Timeline line growth
+      // Timeline line growth - already scrub-based, keep it
       if (lineRef.current) {
         gsap.fromTo(
           lineRef.current,
@@ -100,24 +157,37 @@ export default function Experience() {
         );
       }
 
-      // Timeline items stagger
+      // Timeline items - alternate from left and right sides
       const items = timelineRef.current?.querySelectorAll(".timeline-item");
       if (items) {
-        gsap.fromTo(
-          items,
-          { opacity: 0, x: -30 },
-          {
-            opacity: 1,
-            x: 0,
-            stagger: 0.15,
-            duration: 0.8,
-            ease: "expo.out",
-            scrollTrigger: {
-              trigger: timelineRef.current,
-              start: "top 80%",
+        items.forEach((item, index) => {
+          gsap.fromTo(
+            item,
+            { 
+              opacity: 0, 
+              x: index % 2 === 0 ? -500 : 500, 
+              y: 80,
+              z: -300, 
+              rotateY: index % 2 === 0 ? -25 : 25,
+              scale: 0.85,
             },
-          },
-        );
+            {
+              opacity: 1,
+              x: 0,
+              y: 0,
+              z: 0,
+              rotateY: 0,
+              scale: 1,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: item,
+                start: "top 95%",
+                end: "top 55%",
+                scrub: 1.5,
+              },
+            },
+          );
+        });
       }
     }, sectionRef);
 
@@ -132,7 +202,6 @@ export default function Experience() {
     >
       {/* Background */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 dot-grid opacity-15" />
         <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-blue-500/[0.02] rounded-full blur-[100px]" />
       </div>
 
@@ -149,7 +218,7 @@ export default function Experience() {
           </div>
 
           {/* Timeline */}
-          <div ref={timelineRef} className="relative pl-8 md:pl-12">
+          <div ref={timelineRef} className="relative pl-8 md:pl-12" style={{ perspective: "1200px" }}>
             {/* Animated line */}
             <div className="absolute left-0 md:left-4 top-0 bottom-0 w-[1px] bg-white/[0.04]">
               <div
@@ -176,9 +245,9 @@ export default function Experience() {
               {experiences.map((exp, idx) => (
                 <div key={idx} className="timeline-item relative group">
                   {/* Timeline dot */}
-                  <div className="absolute -left-8 md:-left-12 top-6 w-[9px] h-[9px] rounded-full border-2 border-cyan-500/50 bg-black group-hover:border-cyan-400 group-hover:shadow-[0_0_12px_rgba(6,182,212,0.5)] transition-all duration-500" />
+                  <div className="absolute -left-8 md:-left-12 top-6 w-[9px] h-[9px] rounded-full border-2 border-cyan-500/50 bg-black group-hover:border-cyan-400 group-hover:shadow-[0_0_12px_rgba(6,182,212,0.5)] transition-all duration-500 z-10" />
 
-                  <div className="p-6 md:p-8 rounded-2xl glass-hover">
+                  <TiltCard className="p-6 md:p-8 rounded-2xl">
                     <div className="flex flex-wrap items-start justify-between gap-2 mb-3">
                       <div>
                         <h4 className="text-lg font-bold text-white group-hover:text-gradient transition-all duration-500">
@@ -203,7 +272,7 @@ export default function Experience() {
                         </span>
                       ))}
                     </div>
-                  </div>
+                  </TiltCard>
                 </div>
               ))}
             </div>
@@ -221,8 +290,8 @@ export default function Experience() {
 
               {education.map((edu, idx) => (
                 <div key={idx} className="timeline-item relative group">
-                  <div className="absolute -left-8 md:-left-12 top-6 w-[9px] h-[9px] rounded-full border-2 border-violet-500/50 bg-black group-hover:border-violet-400 group-hover:shadow-[0_0_12px_rgba(139,92,246,0.5)] transition-all duration-500" />
-                  <div className="p-6 md:p-8 rounded-2xl glass-hover">
+                  <div className="absolute -left-8 md:-left-12 top-6 w-[9px] h-[9px] rounded-full border-2 border-violet-500/50 bg-black group-hover:border-violet-400 group-hover:shadow-[0_0_12px_rgba(139,92,246,0.5)] transition-all duration-500 z-10" />
+                  <TiltCard className="p-6 md:p-8 rounded-2xl">
                     <div className="flex flex-wrap items-start justify-between gap-2 mb-3">
                       <div>
                         <h4 className="text-lg font-bold text-white">
@@ -239,7 +308,7 @@ export default function Experience() {
                     <p className="text-sm text-white/35 leading-relaxed">
                       {edu.description}
                     </p>
-                  </div>
+                  </TiltCard>
                 </div>
               ))}
             </div>
@@ -256,13 +325,12 @@ export default function Experience() {
               </div>
               <div className="grid sm:grid-cols-2 gap-3">
                 {achievements.map((a, i) => (
-                  <div
-                    key={i}
-                    className="flex items-center gap-3 px-4 py-3 rounded-xl glass"
-                  >
-                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 flex-shrink-0" />
-                    <span className="text-sm text-white/40">{a}</span>
-                  </div>
+                  <TiltCard key={i} className="px-4 py-3 rounded-xl bg-white/[0.02]">
+                    <div className="flex items-center gap-3">
+                      <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 flex-shrink-0" />
+                      <span className="text-sm text-white/40">{a}</span>
+                    </div>
+                  </TiltCard>
                 ))}
               </div>
             </div>

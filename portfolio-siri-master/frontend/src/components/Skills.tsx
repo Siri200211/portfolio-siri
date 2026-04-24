@@ -289,13 +289,19 @@ function SkillCard({ skill, index }: { skill: Skill; index: number }) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30, scale: 0.95 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true }}
+      initial={{ 
+        opacity: 0, 
+        x: index % 2 === 0 ? -300 : 300, 
+        y: 60, 
+        z: -200, 
+        rotateY: index % 2 === 0 ? -20 : 20 
+      }}
+      whileInView={{ opacity: 1, x: 0, y: 0, z: 0, rotateY: 0 }}
+      viewport={{ once: true, margin: "-30px" }}
       transition={{
-        duration: 0.6,
-        delay: index * 0.05,
-        ease: [0.16, 1, 0.3, 1],
+        duration: 1,
+        delay: index * 0.03,
+        ease: [0.25, 1, 0.5, 1],
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -346,13 +352,12 @@ function SkillCard({ skill, index }: { skill: Skill; index: number }) {
               </span>
             </div>
             <div
-              className={`px-2 py-0.5 rounded-md text-[9px] font-mono uppercase tracking-wider ${
-                skill.level === "expert"
+              className={`px-2 py-0.5 rounded-md text-[9px] font-mono uppercase tracking-wider ${skill.level === "expert"
                   ? "text-emerald-400/60 bg-emerald-500/[0.08] border border-emerald-500/10"
                   : skill.level === "advanced"
                     ? "text-cyan-400/60 bg-cyan-500/[0.08] border border-cyan-500/10"
                     : "text-white/30 bg-white/[0.04] border border-white/[0.06]"
-              }`}
+                }`}
             >
               {skill.level}
             </div>
@@ -452,12 +457,12 @@ export default function Skills() {
 
       <div className="relative z-10">
         {/* Header */}
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto px-6" style={{ perspective: "1000px" }}>
           <motion.div
-            initial={{ opacity: 0, y: 60 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="max-w-4xl mx-auto text-center mb-16"
+            initial={{ opacity: 0, y: 100, z: -300, rotateX: 20 }}
+            animate={isInView ? { opacity: 1, y: 0, z: 0, rotateX: 0 } : {}}
+            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+            className="max-w-4xl mx-auto text-center mb-16 transform-style-3d"
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
@@ -518,11 +523,10 @@ export default function Skills() {
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`relative px-5 py-2.5 text-xs font-medium rounded-xl transition-all duration-500 ${
-                  activeCategory === cat
+                className={`relative px-5 py-2.5 text-xs font-medium rounded-xl transition-all duration-500 ${activeCategory === cat
                     ? "text-white"
                     : "text-white/30 hover:text-white/60"
-                }`}
+                  }`}
               >
                 {activeCategory === cat && (
                   <motion.div
@@ -568,7 +572,7 @@ export default function Skills() {
                 </p>
                 <p className="text-lg font-semibold text-white/70">
                   Full Stack Engineer with{" "}
-                  <span className="text-gradient font-bold">3+ years</span> of
+                  <span className="text-gradient font-bold">2+ years</span> of
                   hands-on experience
                 </p>
               </div>
@@ -592,7 +596,7 @@ export default function Skills() {
                 </div>
                 <div className="w-[1px] h-10 bg-white/[0.06]" />
                 <div className="text-center">
-                  <p className="text-3xl font-black text-gradient">6+</p>
+                  <p className="text-3xl font-black text-gradient">14+</p>
                   <p className="text-[10px] font-mono text-white/25 uppercase tracking-wider mt-1">
                     Projects
                   </p>

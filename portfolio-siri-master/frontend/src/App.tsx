@@ -51,30 +51,46 @@ function ScrollSection({
   });
 
   // 3D "Fly Through" effect
-  // scale: Starts small (distant), normalizes in center, massive when leaving top
-  const scale = useTransform(scrollYProgress, [0, 0.4, 0.6, 1], [0.8, 1, 1, 1.8]);
+  // scale: Starts pushed back, normalizes, pushes forward on exit
+  const scale = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.8, 1, 1, 1.1]);
   
-  // filter: blurry when distant or past camera
+  // rotateX: Tilts back when entering, flat in center, tilts forward when exiting
+  const rotateX = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], ["15deg", "0deg", "0deg", "-15deg"]);
+  
+  // z: Physically pushes into the screen on edges
+  const z = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [-400, 0, 0, 200]);
+  
+  // filter: deep blur entry and exit
   const filter = useTransform(
     scrollYProgress, 
-    [0, 0.3, 0.7, 1], 
-    ["blur(15px)", "blur(0px)", "blur(0px)", "blur(25px)"]
+    [0, 0.2, 0.8, 1], 
+    ["blur(20px)", "blur(0px)", "blur(0px)", "blur(20px)"]
   );
   
-  // opacity: fade in and fade out
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.7, 1], [0, 1, 1, 0]);
+  // opacity: fade in and fade out smoothly
+  const opacity = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0, 1, 1, 0]);
   
-  // y: subtle parallax
-  const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
+  // y: stronger parallax
+  const y = useTransform(scrollYProgress, [0, 1], [150, -150]);
 
   return (
-    <motion.section
-      ref={ref}
-      style={{ scale, filter, opacity, y }}
-      className={className}
-    >
-      {children}
-    </motion.section>
+    <div className="w-full" style={{ perspective: "2000px" }}>
+      <motion.section
+        ref={ref}
+        style={{ 
+          scale, 
+          rotateX, 
+          z, 
+          filter, 
+          opacity, 
+          y,
+          transformStyle: "preserve-3d" 
+        }}
+        className={className}
+      >
+        {children}
+      </motion.section>
+    </div>
   );
 }
 
