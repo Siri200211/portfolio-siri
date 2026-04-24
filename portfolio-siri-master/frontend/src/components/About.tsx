@@ -2,8 +2,57 @@ import { useRef, useEffect } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { MapPin, Calendar, Code2, Coffee } from "lucide-react";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 
 gsap.registerPlugin(ScrollTrigger);
+
+// 3D Tilt Card Component for About Section
+function TiltCard({ children, className = "" }: { children: React.ReactNode, className?: string }) {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const mouseXSpring = useSpring(x, { stiffness: 400, damping: 40 });
+  const mouseYSpring = useSpring(y, { stiffness: 400, damping: 40 });
+
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["5deg", "-5deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-5deg", "5deg"]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    x.set(mouseX / width - 0.5);
+    y.set(mouseY / height - 0.5);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <motion.div
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        rotateX,
+        rotateY,
+        transformStyle: "preserve-3d",
+        perspective: "1000px"
+      }}
+      className={`about-card glass-hover transition-all duration-500 hover:z-20 hover:scale-[1.02] ${className}`}
+    >
+      <div 
+        className="w-full h-full"
+        style={{ transform: "translateZ(20px)" }}
+      >
+        {children}
+      </div>
+    </motion.div>
+  );
+}
 
 export default function About() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -73,7 +122,6 @@ export default function About() {
       className="relative py-32 overflow-hidden"
     >
       <div className="absolute inset-0">
-        <div className="absolute inset-0 dot-grid opacity-15" />
         <div className="absolute top-1/3 right-1/4 w-[400px] h-[400px] bg-cyan-500/[0.02] rounded-full blur-[100px]" />
       </div>
 
@@ -89,9 +137,9 @@ export default function About() {
             </h2>
           </div>
 
-          <div ref={contentRef} className="grid md:grid-cols-3 gap-6">
+          <div ref={contentRef} className="grid md:grid-cols-3 gap-6" style={{ perspective: "1200px" }}>
             {/* Main bio - spans 2 cols */}
-            <div className="about-card md:col-span-2 p-8 md:p-10 rounded-3xl glass-hover">
+            <TiltCard className="md:col-span-2 p-8 md:p-10 rounded-3xl">
               <div className="space-y-5">
                 <p className="text-white/50 leading-relaxed">
                   I'm a{" "}
@@ -117,14 +165,14 @@ export default function About() {
                   pipelines, Azure, JIRA, and Agile workflows.
                 </p>
               </div>
-            </div>
+            </TiltCard>
 
             {/* Quick info cards */}
-            <div className="about-card space-y-3">
+            <div className="space-y-3">
               {infoCards.map((card, idx) => {
                 const Icon = card.icon;
                 return (
-                  <div key={idx} className="p-4 rounded-2xl glass-hover group">
+                  <TiltCard key={idx} className="p-4 rounded-2xl">
                     <div className="flex items-center gap-3">
                       <div
                         className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
@@ -141,13 +189,13 @@ export default function About() {
                         </p>
                       </div>
                     </div>
-                  </div>
+                  </TiltCard>
                 );
               })}
             </div>
 
             {/* Philosophy card */}
-            <div className="about-card md:col-span-3 p-8 rounded-3xl glass-hover">
+            <TiltCard className="md:col-span-3 p-8 rounded-3xl">
               <div className="flex flex-wrap items-center justify-between gap-6">
                 <div>
                   <p className="text-xs font-mono text-white/20 mb-2">
@@ -175,7 +223,7 @@ export default function About() {
                   </div>
                 </div>
               </div>
-            </div>
+            </TiltCard>
           </div>
         </div>
       </div>

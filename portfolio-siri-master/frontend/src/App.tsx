@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { useState, useRef } from "react";
+import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
 import Navbar from "./components/navbar";
 import Hero from "./components/Hero";
 import Skills from "./components/Skills";
@@ -34,43 +34,43 @@ const pageEntrance = {
   },
 };
 
-const sectionVariants = {
-  hidden: { opacity: 0, y: 60, scale: 0.98 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      duration: 0.9,
-      ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
-    },
-  },
-};
+// ... [Keep pageEntrance]
 
 function ScrollSection({
   children,
   className = "",
-  delay = 0,
 }: {
   children: React.ReactNode;
   className?: string;
-  delay?: number;
 }) {
+  const ref = useRef<HTMLElement>(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+
+  // 3D "Fly Through" effect
+  // scale: Starts small (distant), normalizes in center, massive when leaving top
+  const scale = useTransform(scrollYProgress, [0, 0.4, 0.6, 1], [0.8, 1, 1, 1.8]);
+  
+  // filter: blurry when distant or past camera
+  const filter = useTransform(
+    scrollYProgress, 
+    [0, 0.3, 0.7, 1], 
+    ["blur(15px)", "blur(0px)", "blur(0px)", "blur(25px)"]
+  );
+  
+  // opacity: fade in and fade out
+  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.7, 1], [0, 1, 1, 0]);
+  
+  // y: subtle parallax
+  const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
+
   return (
     <motion.section
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-60px" }}
-      variants={{
-        ...sectionVariants,
-        visible: {
-          ...sectionVariants.visible,
-          transition: {
-            ...sectionVariants.visible.transition,
-            delay,
-          },
-        },
-      }}
+      ref={ref}
+      style={{ scale, filter, opacity, y }}
       className={className}
     >
       {children}
@@ -123,15 +123,15 @@ function App() {
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.06] to-transparent" />
                 </div>
 
-                <ScrollSection delay={0.1}>
+                <ScrollSection>
                   <Projects />
                 </ScrollSection>
 
-                <ScrollSection delay={0.1}>
+                <ScrollSection>
                   <Experience />
                 </ScrollSection>
 
-                <ScrollSection delay={0.1}>
+                <ScrollSection>
                   <About />
                 </ScrollSection>
 

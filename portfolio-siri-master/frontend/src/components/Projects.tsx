@@ -1,7 +1,8 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ExternalLink, Github, ArrowUpRight } from "lucide-react";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -85,9 +86,70 @@ const projects = [
   },
 ];
 
+// 3D Tilt Card Component
+function TiltCard({
+  children,
+  color,
+  isHovered,
+  isOtherHovered,
+  onMouseEnter,
+  onMouseLeave
+}: any) {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const mouseXSpring = useSpring(x, { stiffness: 400, damping: 40 });
+  const mouseYSpring = useSpring(y, { stiffness: 400, damping: 40 });
+
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["8deg", "-8deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-8deg", "8deg"]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    x.set(mouseX / width - 0.5);
+    y.set(mouseY / height - 0.5);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+    onMouseLeave();
+  };
+
+  return (
+    <motion.div
+      onMouseMove={handleMouseMove}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        rotateX,
+        rotateY,
+        transformStyle: "preserve-3d",
+        perspective: "1000px"
+      }}
+      className={`project-card group relative rounded-3xl glass-hover transition-all duration-700 
+        ${isHovered ? "z-50 scale-[1.02]" : ""} 
+        ${isOtherHovered ? "blur-md scale-95 opacity-40 grayscale-[50%]" : "opacity-100"}
+      `}
+    >
+      <div
+        className="relative p-8 md:p-12 h-full overflow-hidden rounded-3xl"
+        style={{ transform: "translateZ(30px)" }} // Pop out effect
+      >
+        {children}
+      </div>
+    </motion.div>
+  );
+}
+
 export default function Projects() {
   const sectionRef = useRef<HTMLElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -155,23 +217,29 @@ export default function Projects() {
           </div>
 
           {/* Featured projects - large cards */}
-          <div ref={cardsRef} className="space-y-6">
+          <div ref={cardsRef} className="space-y-6" style={{ perspective: "1200px" }}>
             {projects
               .filter((p) => p.featured)
-              .map((project, idx) => (
-                <div
-                  key={idx}
-                  className="project-card group relative rounded-3xl glass-hover overflow-hidden"
-                  style={{ perspective: "1000px" }}
-                >
-                  <div className="relative p-8 md:p-12">
+              .map((project, idx) => {
+                const isHovered = hoveredIdx === idx;
+                const isOtherHovered = hoveredIdx !== null && hoveredIdx !== idx;
+
+                return (
+                  <TiltCard
+                    key={idx}
+                    color={project.color}
+                    isHovered={isHovered}
+                    isOtherHovered={isOtherHovered}
+                    onMouseEnter={() => setHoveredIdx(idx)}
+                    onMouseLeave={() => setHoveredIdx(null)}
+                  >
                     {/* Accent gradient */}
                     <div
-                      className="absolute top-0 right-0 w-[300px] h-[300px] rounded-full blur-[100px] opacity-[0.04] group-hover:opacity-[0.08] transition-opacity duration-700"
+                      className="absolute top-0 right-0 w-[300px] h-[300px] rounded-full blur-[100px] opacity-[0.04] group-hover:opacity-[0.12] transition-opacity duration-700"
                       style={{ background: project.color }}
                     />
 
-                    <div className="relative grid md:grid-cols-2 gap-8 items-center">
+                    <div className="relative grid md:grid-cols-2 gap-8 items-center" style={{ transform: "translateZ(20px)" }}>
                       {/* Content */}
                       <div className="space-y-6">
                         <div className="flex items-center gap-3">
@@ -179,38 +247,38 @@ export default function Projects() {
                             className="w-2 h-2 rounded-full"
                             style={{
                               background: project.color,
-                              boxShadow: `0 0 8px ${project.color}`,
+                              boxShadow: `0 0 12px ${project.color}`,
                             }}
                           />
-                          <span className="text-xs font-mono text-white/30">
+                          <span className="text-xs font-mono text-white/40">
                             {project.period}
                           </span>
                         </div>
 
-                        <h3 className="text-2xl md:text-3xl font-bold text-white group-hover:text-gradient transition-all duration-500">
+                        <h3 className="text-2xl md:text-3xl font-bold text-white group-hover:text-gradient transition-all duration-500" style={{ transform: "translateZ(30px)" }}>
                           {project.title}
                         </h3>
 
-                        <p className="text-white/40 text-sm leading-relaxed">
+                        <p className="text-white/50 text-sm leading-relaxed" style={{ transform: "translateZ(20px)" }}>
                           {project.description}
                         </p>
 
-                        <div className="flex flex-wrap gap-2">
+                        <div className="flex flex-wrap gap-2" style={{ transform: "translateZ(25px)" }}>
                           {project.tech.map((t, i) => (
                             <span
                               key={i}
-                              className="px-3 py-1 text-[11px] font-medium text-white/50 bg-white/[0.03] border border-white/[0.06] rounded-lg hover:border-white/20 hover:text-white/70 transition-all duration-300"
+                              className="px-3 py-1 text-[11px] font-medium text-white/50 bg-white/[0.03] border border-white/[0.06] rounded-lg hover:border-white/30 hover:bg-white/[0.05] transition-all duration-300"
                             >
                               {t}
                             </span>
                           ))}
                         </div>
 
-                        <div className="flex items-center gap-3 pt-2">
-                          <button className="flex items-center gap-2 text-xs font-medium text-white/50 hover:text-white transition-colors group/btn">
+                        <div className="flex items-center gap-3 pt-2" style={{ transform: "translateZ(30px)" }}>
+                          <button className="flex items-center gap-2 text-xs font-medium text-white/60 hover:text-white transition-colors group/btn">
                             <ArrowUpRight
                               size={14}
-                              className="group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform"
+                              className="group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform"
                             />
                             View Details
                           </button>
@@ -218,18 +286,18 @@ export default function Projects() {
                       </div>
 
                       {/* Image preview */}
-                      <div className="relative">
+                      <div className="relative" style={{ transform: "translateZ(40px)" }}>
                         {project.images.length > 0 ? (
-                          <div className="relative rounded-2xl overflow-hidden border border-white/[0.06] group-hover:border-white/[0.12] transition-all duration-700">
+                          <div className="relative rounded-2xl overflow-hidden border border-white/[0.06] group-hover:border-white/[0.2] transition-all duration-700 shadow-2xl">
                             <img
                               src={project.images[0]}
                               alt={project.title}
-                              className="w-full h-48 md:h-64 object-cover group-hover:scale-[1.03] transition-transform duration-700"
+                              className="w-full h-48 md:h-64 object-cover group-hover:scale-110 transition-transform duration-700"
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                           </div>
                         ) : (
-                          <div className="relative h-48 md:h-64 rounded-2xl border border-white/[0.04] bg-gradient-to-br from-white/[0.02] to-transparent flex items-center justify-center">
+                          <div className="relative h-48 md:h-64 rounded-2xl border border-white/[0.04] bg-gradient-to-br from-white/[0.02] to-transparent flex items-center justify-center shadow-xl">
                             <div className="text-center">
                               <div
                                 className="w-12 h-12 mx-auto mb-3 rounded-xl flex items-center justify-center"
@@ -248,9 +316,9 @@ export default function Projects() {
                         )}
                       </div>
                     </div>
-                  </div>
-                </div>
-              ))}
+                  </TiltCard>
+                );
+              })}
 
             {/* Smaller project cards */}
             <div className="grid md:grid-cols-3 gap-4 mt-8">
