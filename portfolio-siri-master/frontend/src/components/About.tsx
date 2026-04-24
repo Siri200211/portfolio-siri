@@ -99,22 +99,22 @@ export default function About() {
                     Full Stack Software Engineer
                   </span>{" "}
                   based in Sri Lanka, currently pursuing my BSc in Information
-                  Technology at SLIIT. I specialize in building scalable,
-                  secure web applications and RESTful APIs that solve real
-                  business problems.
+                  Technology at SLIIT. I specialize in building scalable, secure
+                  web applications and RESTful APIs that solve real business
+                  problems.
                 </p>
                 <p className="text-white/40 leading-relaxed text-sm">
-                  My experience spans enterprise-level production deployments
-                  at Sri Lanka Telecom, where I built analytics dashboards and
-                  fault management systems used by the Marketing Department.
-                  I'm passionate about clean architecture, backend engineering,
-                  and data-driven interfaces.
+                  My experience spans enterprise-level production deployments at
+                  Sri Lanka Telecom, where I built analytics dashboards and
+                  fault management systems used by the Marketing Department. I'm
+                  passionate about clean architecture, backend engineering, and
+                  data-driven interfaces.
                 </p>
                 <p className="text-white/40 leading-relaxed text-sm">
                   I work across the full stack — React, Angular, and Next.js
-                  frontends; Node.js, .NET Core, and Spring Boot backends;
-                  with MongoDB, MySQL, and MS SQL databases. Experienced with
-                  CI/CD pipelines, Azure, JIRA, and Agile workflows.
+                  frontends; Node.js, .NET Core, and Spring Boot backends; with
+                  MongoDB, MySQL, and MS SQL databases. Experienced with CI/CD
+                  pipelines, Azure, JIRA, and Agile workflows.
                 </p>
               </div>
             </div>

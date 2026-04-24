@@ -7,6 +7,20 @@ gsap.registerPlugin(ScrollTrigger);
 
 const projects = [
   {
+    title: "CS-Antiques E-Commerce",
+    period: "2024",
+    description:
+      "Full-stack e-commerce platform for an antique shop featuring a secure admin dashboard, WhatsApp integration, and automated CI/CD deployment.",
+    tech: ["React", "Node.js", "Express.js", "MSSQL", "Azure"],
+    images: [
+      "/images/projects/cs-antiques-1.png",
+      "/images/projects/cs-antiques-2.png",
+      "/images/projects/cs-antiques-3.png"
+    ],
+    color: "#eab308",
+    featured: true,
+  },
+  {
     title: "Weather Comfort Analytics",
     period: "Jan 2026",
     description:
