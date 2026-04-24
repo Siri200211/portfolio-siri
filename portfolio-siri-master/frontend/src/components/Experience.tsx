@@ -119,27 +119,22 @@ export default function Experience() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Header - scrubs in from below
+      // Header
       gsap.fromTo(
         ".exp-header",
-        { opacity: 0, y: 150, z: -400, rotateX: 25, scale: 0.8 },
+        { opacity: 0, y: 100, z: -200, rotateX: 15 },
         {
           opacity: 1,
           y: 0,
           z: 0,
           rotateX: 0,
-          scale: 1,
-          ease: "power2.out",
-          scrollTrigger: { 
-            trigger: sectionRef.current, 
-            start: "top 90%",
-            end: "top 50%",
-            scrub: 1,
-          },
+          duration: 1.2,
+          ease: "back.out(1.2)",
+          scrollTrigger: { trigger: sectionRef.current, start: "top 80%" },
         },
       );
 
-      // Timeline line growth - already scrub-based, keep it
+      // Timeline line growth
       if (lineRef.current) {
         gsap.fromTo(
           lineRef.current,
@@ -157,37 +152,27 @@ export default function Experience() {
         );
       }
 
-      // Timeline items - alternate from left and right sides
+      // Timeline items stagger
       const items = timelineRef.current?.querySelectorAll(".timeline-item");
       if (items) {
-        items.forEach((item, index) => {
-          gsap.fromTo(
-            item,
-            { 
-              opacity: 0, 
-              x: index % 2 === 0 ? -500 : 500, 
-              y: 80,
-              z: -300, 
-              rotateY: index % 2 === 0 ? -25 : 25,
-              scale: 0.85,
+        gsap.fromTo(
+          items,
+          { opacity: 0, x: -80, y: 50, z: -200, rotateY: 15 },
+          {
+            opacity: 1,
+            x: 0,
+            y: 0,
+            z: 0,
+            rotateY: 0,
+            stagger: 0.2,
+            duration: 1,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: timelineRef.current,
+              start: "top 85%",
             },
-            {
-              opacity: 1,
-              x: 0,
-              y: 0,
-              z: 0,
-              rotateY: 0,
-              scale: 1,
-              ease: "power2.out",
-              scrollTrigger: {
-                trigger: item,
-                start: "top 95%",
-                end: "top 55%",
-                scrub: 1.5,
-              },
-            },
-          );
-        });
+          },
+        );
       }
     }, sectionRef);
 

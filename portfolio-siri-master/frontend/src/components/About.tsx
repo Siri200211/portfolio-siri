@@ -60,56 +60,37 @@ export default function About() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Header scrubs in from below
       gsap.fromTo(
         ".about-header",
-        { opacity: 0, y: 150, z: -400, rotateX: 25, scale: 0.8 },
+        { opacity: 0, y: 100, z: -200, rotateX: 15 },
         {
           opacity: 1,
           y: 0,
           z: 0,
           rotateX: 0,
-          scale: 1,
-          ease: "power2.out",
-          scrollTrigger: { 
-            trigger: sectionRef.current, 
-            start: "top 90%",
-            end: "top 50%",
-            scrub: 1,
-          },
+          duration: 1.2,
+          ease: "back.out(1.2)",
+          scrollTrigger: { trigger: sectionRef.current, start: "top 80%" },
         },
       );
 
       if (contentRef.current) {
         const cards = contentRef.current.querySelectorAll(".about-card");
-        cards.forEach((card, index) => {
-          gsap.fromTo(
-            card,
-            { 
-              opacity: 0, 
-              x: index % 2 === 0 ? -500 : 500, 
-              y: 60,
-              z: -400, 
-              scale: 0.85, 
-              rotateY: index % 2 === 0 ? -20 : 20,
-            },
-            {
-              opacity: 1,
-              x: 0,
-              y: 0,
-              z: 0,
-              scale: 1,
-              rotateY: 0,
-              ease: "power2.out",
-              scrollTrigger: { 
-                trigger: card, 
-                start: "top 95%",
-                end: "top 55%",
-                scrub: 1.5,
-              },
-            },
-          );
-        });
+        gsap.fromTo(
+          cards,
+          { opacity: 0, y: 80, z: -300, scale: 0.9, rotateY: 10 },
+          {
+            opacity: 1,
+            y: 0,
+            z: 0,
+            scale: 1,
+            rotateY: 0,
+            stagger: 0.15,
+            duration: 1,
+            ease: "expo.out",
+            scrollTrigger: { trigger: contentRef.current, start: "top 85%" },
+          },
+        );
       }
     }, sectionRef);
 

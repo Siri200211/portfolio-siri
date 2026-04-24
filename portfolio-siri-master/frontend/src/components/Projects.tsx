@@ -163,20 +163,15 @@ export default function Projects() {
     const ctx = gsap.context(() => {
       gsap.fromTo(
         ".project-header",
-        { opacity: 0, y: 150, z: -400, rotateX: 25, scale: 0.8 },
+        { opacity: 0, y: 100, z: -200, rotateX: 15 },
         {
           opacity: 1,
           y: 0,
           z: 0,
           rotateX: 0,
-          scale: 1,
-          ease: "power2.out",
-          scrollTrigger: { 
-            trigger: sectionRef.current, 
-            start: "top 90%",
-            end: "top 50%",
-            scrub: 1,
-          },
+          duration: 1.2,
+          ease: "back.out(1.2)",
+          scrollTrigger: { trigger: sectionRef.current, start: "top 80%" },
         },
       );
 
@@ -184,25 +179,18 @@ export default function Projects() {
         const cards = cardsRef.current.querySelectorAll(".project-card");
         gsap.fromTo(
           cards,
-          { 
-            opacity: 0, 
-            y: 200, 
-            z: -500, 
-            x: (index) => (index % 2 === 0 ? -600 : 600),
-            rotateY: (index) => (index % 2 === 0 ? -30 : 30) 
-          },
+          { opacity: 0, y: 120, z: -300, rotateX: -20 },
           {
             opacity: 1,
-            x: 0,
             y: 0,
             z: 0,
-            rotateY: 0,
-            ease: "power2.out",
+            rotateX: 0,
+            stagger: 0.15,
+            duration: 1.2,
+            ease: "expo.out",
             scrollTrigger: {
               trigger: cardsRef.current,
-              start: "top 90%",
-              end: "top 30%",
-              scrub: 1.5,
+              start: "top 85%",
             },
           },
         );

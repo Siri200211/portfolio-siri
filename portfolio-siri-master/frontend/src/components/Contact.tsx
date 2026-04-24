@@ -18,63 +18,31 @@ export default function Contact() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Header scrubs in from below
       gsap.fromTo(
         ".contact-header",
-        { opacity: 0, y: 150, z: -400, rotateX: 25, scale: 0.8 },
+        { opacity: 0, y: 100, z: -200, rotateX: 15 },
         {
           opacity: 1,
           y: 0,
           z: 0,
           rotateX: 0,
-          scale: 1,
-          ease: "power2.out",
-          scrollTrigger: { 
-            trigger: sectionRef.current, 
-            start: "top 90%",
-            end: "top 50%",
-            scrub: 1,
-          },
+          duration: 1.2,
+          ease: "back.out(1.2)",
+          scrollTrigger: { trigger: sectionRef.current, start: "top 80%" },
         },
       );
 
-      // Contact info side - flies in from the left
       gsap.fromTo(
-        ".contact-info-side",
-        { opacity: 0, x: -600, z: -300, rotateY: -30, scale: 0.85 },
+        ".contact-content",
+        { opacity: 0, y: 80, z: -200, scale: 0.95 },
         {
           opacity: 1,
-          x: 0,
+          y: 0,
           z: 0,
-          rotateY: 0,
           scale: 1,
-          ease: "power2.out",
-          scrollTrigger: { 
-            trigger: ".contact-content", 
-            start: "top 90%",
-            end: "top 40%",
-            scrub: 1.5,
-          },
-        },
-      );
-
-      // Form side - flies in from the right
-      gsap.fromTo(
-        ".contact-form-side",
-        { opacity: 0, x: 600, z: -300, rotateY: 30, scale: 0.85 },
-        {
-          opacity: 1,
-          x: 0,
-          z: 0,
-          rotateY: 0,
-          scale: 1,
-          ease: "power2.out",
-          scrollTrigger: { 
-            trigger: ".contact-content", 
-            start: "top 90%",
-            end: "top 40%",
-            scrub: 1.5,
-          },
+          duration: 1,
+          ease: "expo.out",
+          scrollTrigger: { trigger: sectionRef.current, start: "top 70%" },
         },
       );
     }, sectionRef);
@@ -150,9 +118,9 @@ export default function Contact() {
             </p>
           </div>
 
-          <div className="contact-content grid md:grid-cols-5 gap-8" style={{ perspective: "1200px" }}>
+          <div className="contact-content grid md:grid-cols-5 gap-8">
             {/* Contact info side */}
-            <div className="contact-info-side md:col-span-2 space-y-4">
+            <div className="md:col-span-2 space-y-4">
               {/* Contact cards */}
               {contactInfo.map((info, idx) => {
                 const Icon = info.icon;
@@ -209,7 +177,7 @@ export default function Contact() {
             </div>
 
             {/* Form */}
-            <div className="contact-form-side md:col-span-3">
+            <div className="md:col-span-3">
               <form
                 ref={formRef}
                 onSubmit={handleSubmit}

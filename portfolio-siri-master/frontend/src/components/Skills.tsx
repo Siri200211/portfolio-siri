@@ -289,19 +289,13 @@ function SkillCard({ skill, index }: { skill: Skill; index: number }) {
 
   return (
     <motion.div
-      initial={{ 
-        opacity: 0, 
-        x: index % 2 === 0 ? -300 : 300, 
-        y: 60, 
-        z: -200, 
-        rotateY: index % 2 === 0 ? -20 : 20 
-      }}
-      whileInView={{ opacity: 1, x: 0, y: 0, z: 0, rotateY: 0 }}
-      viewport={{ once: true, margin: "-30px" }}
+      initial={{ opacity: 0, y: 80, z: -200, rotateX: -15 }}
+      whileInView={{ opacity: 1, y: 0, z: 0, rotateX: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
       transition={{
-        duration: 1,
-        delay: index * 0.03,
-        ease: [0.25, 1, 0.5, 1],
+        duration: 0.8,
+        delay: index * 0.05,
+        ease: "backOut",
       }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
